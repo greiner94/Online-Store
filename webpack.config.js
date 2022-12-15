@@ -18,8 +18,9 @@ module.exports = {
   },
   entry: {
     index: path.resolve(__dirname, './src/pages/main/ts/index'),
-    basket: path.resolve(__dirname, './src/pages/basket/ts/basket'),
-    product: path.resolve(__dirname, './src/pages/product/ts/product')
+    cart: path.resolve(__dirname, './src/pages/cart/ts/cart'),
+    product: path.resolve(__dirname, './src/pages/product/ts/product'),
+    404: path.resolve(__dirname, './src/pages/404/ts/404')
   },
   output: {
     filename: '[name].js',
@@ -100,14 +101,19 @@ module.exports = {
       chunks: ['index']
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './src/pages/basket/basket.html'),
-      filename: 'basket.html',
-      chunks: ['basket']
+      template: path.resolve(__dirname, './src/pages/cart/cart.html'),
+      filename: 'cart.html',
+      chunks: ['cart']
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/pages/product/product.html'),
       filename: 'product.html',
       chunks: ['product']
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './src/pages/404/404.html'),
+      filename: '404.html',
+      chunks: ['404']
     }),
     new CleanWebpackPlugin()
   ],

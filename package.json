@@ -9,13 +9,13 @@
         "build-prod": "webpack --node-env=production",
         "clear": "rd /s /q dist",
         "lint": "eslint . --ext .ts"
-      },
+    },
     "repository": {
         "type": "git",
         "url": ""
     },
     "keywords": [],
-    "author": "Iryna Ehorova & Gennadiy Greiner",
+    "author": "Iryna Yehorova & Gennadiy Greiner",
     "license": "ISC",
     "browserslist": [
         ">0.2%",
@@ -34,7 +34,6 @@
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.23.3",
         "eslint-plugin-prettier": "^3.4.0",
-        "file-loader": "^6.2.0",
         "html-loader": "^4.2.0",
         "html-webpack-plugin": "^5.2.0",
         "image-webpack-loader": "^8.1.0",
