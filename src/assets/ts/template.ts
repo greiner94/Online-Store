@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import '../scss/templates.scss';
+
 interface Module {
     default: string;
 }
