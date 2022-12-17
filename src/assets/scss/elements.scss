@@ -1,0 +1,6 @@
+// symbol $ after price or total sum
+.money::after {
+    content: '$';
+    font-size: 1rem;
+    margin-left: 3px;
+}
