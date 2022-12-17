@@ -64,7 +64,7 @@ module.exports = {
         test: /\.(jpe?g|png|webp|gif|svg)$/i,
         use: [
           {
-            loader: 'image-webpack-loader',
+            loader: 'img-loader',
             options: {
               mozjpeg: {
                 progressive: true,
