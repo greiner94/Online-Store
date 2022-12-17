@@ -1,0 +1,15 @@
+header{
+    display: grid;
+    min-height: 78px;
+    max-height: 1440px;
+    grid-template-columns: 1fr 2.05fr 1fr 1fr;
+    background-color: #181818;
+    color: #ffffff;
+
+    & .shop-name{
+        font-size: 1.5rem;
+        font-weight: bold;
+        justify-self: center;
+
+    }
+}
