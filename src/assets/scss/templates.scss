@@ -1,5 +1,12 @@
 @import "header.scss";
 @import "elements.scss";
+@font-face {
+  font-family: Inter;
+  src: url("../font/Inter-Regular.woff2") format("woff2");
+}
+*{
+  font-family: Inter, Roboto, Arial, sans-serif;
+}
 
 .footer {
   display: flex;
