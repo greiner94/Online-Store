@@ -1,1 +1,170 @@
 @import '../../../assets/scss/global.scss';
+
+.main{
+    margin: 30px 35px 20px 25px;
+    display: grid;
+    grid-template-columns: 1.5fr 4.63fr;
+    
+}
+.sidebar{
+    grid-column: 1;
+    font-size: 0.87rem;
+    color: #221f1f;
+
+   
+    
+}
+
+.all-goods {
+    display: flex;
+    align-items: center;
+    color: #6190b9;
+    font-size: 1rem;
+    gap: 10px;
+
+    &::before {
+        content: url("../../../assets/img/dots_icon.svg");
+        
+    }
+    
+
+}
+.filter-title {
+    color: #6190b9;
+    &__name {
+        width: 58%;
+    } 
+}
+
+.product-categories{
+    font-size: 1rem;
+    color: #6190b9;
+    
+    
+}
+
+.filter-item {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &::before {
+        content: url("../../../assets/img/empty_square.svg");
+        
+    }
+
+    &__name {
+        width:60%
+    }
+   
+} 
+.quantity-wrapper{
+    color: #a6a5a5;
+    font-size: 12px;
+}
+
+.checked-block {
+    & .checked {
+        &::before {
+            content: url("../../../assets/img/check_square.svg");
+            
+        }
+        .product-categories.checked-block .filter-item:not(&) {
+            color:#87c7ff;
+        }
+        .brand.checked-block .filter-item:not(&) {
+            color:#a6a5a5;
+        }
+    }
+
+}
+
+.product-section{
+    grid-column: 2;
+}
+
+.filter-block {
+    padding: 20px 15px 20px 5px;
+    border-bottom: 1px solid #dcdcdc;
+    border-right: 1px solid #dcdcdc;
+    
+}
+.filter-list {
+    height: 200px;
+    overflow-y:scroll;
+    
+    &::-webkit-scrollbar {
+        width: 6px;
+        background-color: #d9d9d9;
+    }
+    &::-webkit-scrollbar-track {
+        // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        background-color: #d9d9d9;
+    }
+      
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+        background-color: #a6a5a5;
+    }
+   
+   
+}
+.dual-slider {
+    position: relative;
+    height: 150px;
+
+    & .slider{
+        position: absolute;
+        -webkit-appearance: none;
+        appearance: none;
+        width: 96%;
+        margin: 2%;
+        overflow: hidden;
+        outline: none;
+        background: linear-gradient(#25a53c,#208a33) no-repeat center;
+        background-size: 100% 3px;
+        pointer-events: none;
+
+        &::-webkit-slider-runnable-track {
+            min-inline-size: 0px;
+            align-self: center;
+            box-sizing: border-box;
+            display: block;
+            -webkit-user-modify: read-only !important;
+            flex: 1 1 0%;
+        }
+        &::-webkit-slider-thumb {
+            height: 15px;
+            width: 15px;
+            border: 1px solid #c3c3c3;
+            border-radius: 50%;
+            background-color: #d9d9d9;
+            position: relative;
+            margin: 0;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            pointer-events: all;
+            box-shadow: 0 1px 4px 0.5px #fffefe80;
+        }
+
+        // &::-webkit-slider-thumb {
+        //     -webkit-appearance: none;
+        //     border: 1px solid #000000;
+        //     height: 5px;
+        //     width: 5px;
+        //     border-radius: 50%;
+        //     background: #ffffff;
+        //     cursor: pointer;
+        //     margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+        //     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+        //   }
+    }
+    & .slider:nth-child(2) {
+        background: none;
+    }
+    
+}
