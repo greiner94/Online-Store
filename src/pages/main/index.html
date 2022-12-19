@@ -12,11 +12,13 @@
     <aside class="sidebar">
       <div class="sidedebar__filter-category filter-block">
         <h3 class="filter-title all-goods"><span class="filter-title__name">All products</span><span class="quantity-wrapper">
+        <h3 class="filter-title all-goods"><span class="filter-title__name">All products</span><span class="quantity-wrapper">
           (
             <span class="filter-item__chose-quantity">10</span>
             /
             <span class="filter-item__all-quantity">342</span>
           )
+        </span></h3>
         </span></h3>
         <ul class="product-categories filter-list checked-block">
           
@@ -103,6 +105,7 @@
         </ul>
       </div>
       <div class="sideBar__filter-brand filter-block">
+        <h3 class="filter-title">Brand</h3>
         <h3 class="filter-title">Brand</h3>
         <ul class="brand filter-list checked-block">
           
@@ -194,12 +197,22 @@
           <span class="amount-begin money">10</span> —
           <span class="amount-end money">10000</span>
         </div>
+        <h3 class="filter-title">Price</h3>
+        <div class="price-amount">
+          <span class="amount-begin money">10</span> —
+          <span class="amount-end money">10000</span>
+        </div>
         <div class="dual-slider">
           <input type="range" min="0" max="75" class="slider">
           <input type="range" min="0" max="75" class="slider">
         </div>
       </div>
       <div class="sidebar__filter-stock filter-block">
+        <h3 class="filter-title">Stock</h3>
+        <div class="stock-amount">
+          <span class="amount-begin">1</span> —
+          <span class="amount-end">200</span>
+        </div>
         <h3 class="filter-title">Stock</h3>
         <div class="stock-amount">
           <span class="amount-begin">1</span> —
@@ -218,12 +231,22 @@
           <span class="view-mode__list"></span>
           <span class="view-mode__cards active"></span>
         </div>
+      <div class="header-line">
+        <h2 class="product-section__title">**Category**</h2>
+        <div class="view-mode">
+          <span class="view-mode__list"></span>
+          <span class="view-mode__cards active"></span>
+        </div>
       </div>
       <aside class="status-bar">
         <div class="status-bar__select-goods">
           <span>Found</span>
+          <span>Found</span>
           <span class="amount">**100**</span>
         </div>
+        <div class="status-bar__select-filters filter-block">
+          <span class="select-filter filter-block__item">**Apple**</span>
+          <span class="select-filter filter-block__item">**Huawei**</span>
         <div class="status-bar__select-filters filter-block">
           <span class="select-filter filter-block__item">**Apple**</span>
           <span class="select-filter filter-block__item">**Huawei**</span>
@@ -231,8 +254,12 @@
         <div class="status-bar__reset-save-filters filter-block ">
           <span class="reset-filters filter-block__item">Reset all filters</span>
           <span class="save-filters filter-block__item">Save filters</span>
+        <div class="status-bar__reset-save-filters filter-block ">
+          <span class="reset-filters filter-block__item">Reset all filters</span>
+          <span class="save-filters filter-block__item">Save filters</span>
         </div>
         <div class="status-bar__sort-products">
+          <select name="sort-product" class="sort-product">
           <select name="sort-product" class="sort-product">
             <option value="">--Sort options:--</option>
             <option value="sort-rating">Sort by rating</option>
@@ -352,7 +379,14 @@
           <a href="product.html" rel="bookmark">
             <div class="card__photo"></div>
             <h3 class="card__header">IPhone9</h3>
+            <h3 class="card__header">IPhone9</h3>
             <div class="card__data">
+              <div class="rating">Rating 4.8/5</div>
+              <div class="price-cart-line">
+                <div class="price money">25</div>
+                <div class="add-cart"></div>
+              </div>
+              <div class="available">Available</div>
               <div class="rating">Rating 4.8/5</div>
               <div class="price-cart-line">
                 <div class="price money">25</div>
