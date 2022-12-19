@@ -8,6 +8,140 @@
 </head>
 <body>
   <div id="header"></div>
+  <div class="product-cart">
+
+      <nav class="breadcrumbs">
+        <a href="/" class="breadcrumbs__home">
+          <img src="../../assets/img/home_icon.svg" alt="home icon">
+        </a>
+        <a href="/cart.html" class="breadcrumbs__item">
+          Cart
+        </a>
+      </nav>
+
+      <div class="product-cart__wrapper">
+
+        <main class="products">
+          <div class="products__head">
+            <h1 class="products__title">
+              Products in cart
+            </h1>
+            <div class="quantity">
+              <div class="quantity__name">
+                Items:
+              </div>
+              <input class="products__input quantity__input" type="number" value="3">
+            </div>
+            <div class="pages">
+              <div class="pages__name">
+                Page:
+              </div>
+              <div class="pages__controls">
+                <div class="pages__arrow">
+                  <img src="../../assets/img/large-arrow.svg" alt="navigate arrow">
+                </div>
+                <input type="number" class="products__input pages__input" value="1" controls="false">
+                <div class="pages__arrow">
+                  <img src="../../assets/img/large-arrow.svg" alt="navigate arrow">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="products__list">
+              <div class="product">
+                <div class="product__number">
+                  1
+                </div>
+                <div class="product__img">
+                  <img src="../../assets/img/photo-iphone9.jpg" alt="product photo">
+                </div>
+                <div class="product__descr">
+                   <div class="product__name">
+                    Iphone 9
+                   </div>
+                   <div class="product__short-descr">
+                    An apple mobile which is nothing like apple
+                   </div>
+                   <div class="product__details">
+                    <div class="product__meta-wrapper">
+                      <div class="product__meta-name">
+                        Category:
+                      </div>
+                      <div class="product__meta-value">
+                        Smartphones
+                      </div>
+                    </div>
+                    <div class="product__meta-wrapper">
+                      <div class="product__meta-name">
+                        Stock:
+                      </div>
+                      <div class="product__meta-value">
+                        94
+                      </div>
+                    </div>
+                    <div class="product__meta-wrapper">
+                      <div class="product__meta-name">
+                        Brand:
+                      </div>
+                      <div class="product__meta-value">
+                        Apple
+                      </div>
+                    </div>
+                    <div class="product__meta-wrapper">
+                      <div class="product__meta-name">
+                        Discount:  
+                      </div>
+                      <div class="product__meta-value product__meta-value_discount">
+                        12.96%
+                      </div>
+                    </div>
+                   </div>
+                </div>
+                <div class="product__amount">
+                  <div class="product__price money">
+                    549
+                  </div>
+                  <div class="product__amount-toggler">
+                    <img src="../../assets/img/minus.svg" alt="minus" class="product__plus">
+                    <input type="number" class="products__input product__input" value="1">
+                    <img src="../../assets/img/plus.svg" alt="plus" class="product__plus">
+                  </div>
+                </div>
+              </div>
+          </div>
+
+        </main>
+  
+        <aside class="summary">
+            <div class="summary__title">
+              Summary
+            </div>
+            <div class="summary__products">
+              <div class="summary__products-title">
+                Products
+              </div>
+              <div class="summary__products-amount">
+                3
+              </div>
+            </div>
+            <div class="summary__total">
+              <div class="summary__total-title">
+                Total:
+              </div>
+              <div class="summary__total-amount money">
+                1647
+              </div>
+            </div>
+            <input type="text" class="summary__input" placeholder="Enter promo code">
+            <div class="summary__promo">
+              Promo for test: 'RS', 'EPM'
+            </div>
+            <button class="summary__btn">Buy Now</button>
+        </aside>
+
+      </div>
+  </div>
   <div id="footer"></div>
 </body>
 </html>
