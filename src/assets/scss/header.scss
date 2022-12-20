@@ -18,9 +18,8 @@ header {
        position: relative;
        border: 1px solid #25a53c;
        border-radius: 5px;
-       background: #25a53c;
        margin: auto 5px;
-      
+             
         &::before{
             content:url(../img/lens_icon.svg);
             position: absolute;
@@ -30,12 +29,10 @@ header {
 
         &__input{
             font-size: 0.94rem;
-            background: #ffffff;
             padding: 15px;
             flex-grow: 1;
             border-radius: 3px 0 0 3px;
             padding-left: 50px;
-
         }
         
         &__btn{
@@ -77,6 +74,7 @@ header {
         background: transparent;
         transition: background 200ms;
         padding: 5px 7px 5px 5px;
+        display: flex;
           
         &:hover {
             background: #616060;
