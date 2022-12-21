@@ -199,7 +199,7 @@
 
         .status-bar {
             display: grid;
-            grid-template-columns: 120px auto 120px 180px;
+            grid-template-columns: 120px auto 157px 194px;
             justify-content: start;
             align-items: baseline;
             margin-top: 15px;
@@ -464,7 +464,7 @@
     .main {
         .product-section {
             .status-bar {
-               grid-template-columns: 120px auto 1fr 176px;
+                grid-template-columns: 120px auto 1fr 211px;
             }
         }
     }
