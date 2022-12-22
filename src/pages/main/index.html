@@ -7,6 +7,36 @@
   <title>Document</title>
 </head>
 <body>
+  <!-- Modal window -->
+  <div class="modal-wrap none">
+    <div class="blackout"></div>
+    <div class="modal">
+      <h2>Personal details</h2>
+      <input type="text" name="first-name" id="person-name" placeholder="Name">
+      <input type="text" name="last-name" id="person-surname" placeholder="Surname">
+      <input type="tel" name="phone-number" id="person-number" placeholder="Phone number">
+      <input type="text" name="delivery-address" id="delivery-address" placeholder="Delivery address">
+      <input type="email" name="email" id="email" placeholder="E-mail">
+      <h3>Credit cards details</h3>
+      <div>
+        <div class="credit-card-wrap">
+          <input type="number" name="card-number" id="card-number" placeholder="Card number">
+          <div class="valid-line">
+            <div class="valid-wrap">
+              <label for="valid">Valid:</label>
+              <input type="number" name="valid" id="valid" placeholder="Valid Thru">
+            </div>
+            <div class="cvv-wrap">
+              <label for="cvv" class="label-cvv">CVV:</label>
+              <input type="number" name="cvv" id="cvv" placeholder="Code">
+            </div>                     
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="modal__submit">Confirm</button>
+    </div>
+  </div>
+  <!-- End modal window -->
   <div id="header"></div>
   <main class="main">
     <aside class="sidebar">
@@ -364,9 +394,6 @@
           </a>
         </article>
       </div>
-
-
-
     </section>
   </main>
   <div id="footer"></div>
