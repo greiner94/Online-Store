@@ -319,6 +319,7 @@
                 }
 
                 &__photo {
+                    object-fit: cover;
                     background: url("../../../assets/img/temp_photo.png") no-repeat;
                     background-size: cover;
                     background-position: center;
