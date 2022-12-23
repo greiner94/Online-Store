@@ -2,7 +2,7 @@ const modeCards = <HTMLElement>document.querySelector('.view-mode__cards');
 const modeList = <HTMLElement>document.querySelector('.view-mode__list');
 const productBlock = <HTMLElement>document.querySelector('.card-block');
 function switchMode(event: Event): void {
-    console.log('event', event);
+    
     const target = <HTMLElement>event.target;
     if (target.className === 'view-mode__cards') {
         modeCards.classList.add('active');
