@@ -1,3 +1,4 @@
+import brandQueryParams from './brandQueryParams';
 import { allBrands } from './productsData';
 
 function brandFilter(): void {
@@ -20,6 +21,8 @@ function brandFilter(): void {
     }
 
     brandFilterElement.innerHTML = brandFilterHtml;
+
+    brandQueryParams();
 }
 
 export default brandFilter;
