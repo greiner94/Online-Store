@@ -1,3 +1,4 @@
+//import setQueryParams from './setQueryParams';
 function brandQueryParams() {
     const brandFilterElement = document.querySelector('.brand.filter-list.checked-block') as HTMLElement;
 
@@ -22,7 +23,7 @@ function brandQueryParams() {
             selectedQueryBrands.forEach((brandName) => {
                 searchParams.append('brand', brandName);
             });
-
+            // setQueryParams('brand', brandName, true);
             const newUrl = url.toString();
             window.history.pushState({}, '', newUrl);
 
