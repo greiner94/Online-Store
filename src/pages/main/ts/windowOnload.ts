@@ -1,9 +1,8 @@
 import { switchMode } from './switchMode';
-
 /**
  * Need change. Add parameters for load page
  */
-export function windowOnload() {
+export function windowOnload(): void {
     document.addEventListener('DOMContentLoaded', () => {
         changePageWithQueryParams();
     });

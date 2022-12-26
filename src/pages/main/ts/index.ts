@@ -9,6 +9,7 @@ import priceFilter from './priceFilter';
 import stockFilter from './stockFilter';
 import prouductsCarts from './prouductsCarts';
 import { switchMode } from './switchMode';
+import { queryReset, querySave } from './queryResetSave';
 
 const modeCards = <HTMLElement>document.querySelector('.view-mode__cards');
 const modeList = <HTMLElement>document.querySelector('.view-mode__list');
@@ -25,3 +26,5 @@ brandFilter();
 priceFilter();
 stockFilter();
 prouductsCarts();
+queryReset();
+querySave();
