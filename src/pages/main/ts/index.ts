@@ -2,12 +2,13 @@ import '../index.html';
 import '../style/style.scss';
 import '../../../assets/ts/template';
 
+import data from '../../../assets/products.json';
 import { windowOnload } from './windowOnload';
 import categoryFilter from './categoryFilter';
 import brandFilter from './brandFilter';
 import priceFilter from './priceFilter';
 import stockFilter from './stockFilter';
-import prouductsCarts from './prouductsCarts';
+import renderProuductsCards from './renderProuductsCards';
 import { switchMode } from './switchMode';
 import { queryReset, querySave } from './queryResetSave';
 
@@ -20,11 +21,12 @@ modeList.addEventListener('click', (e: Event) => {
     switchMode<Event>(e);
 });
 
+const productsList = data.products;
+renderProuductsCards(productsList);
+queryReset();
+querySave();
 windowOnload();
 categoryFilter();
 brandFilter();
 priceFilter();
 stockFilter();
-prouductsCarts();
-queryReset();
-querySave();
