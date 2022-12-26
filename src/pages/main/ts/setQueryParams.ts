@@ -9,9 +9,7 @@ import { QueryParams } from './type';
 export function setQueryParams(key: string, value: string, isMulty = false): void {
     const url = new URL(window.location.href);
     const searchParams = <URLSearchParams>url.searchParams;
-    window.addEventListener('storage', () => {
-        addQueryParamsToLocalStorage();
-    });
+
     if (!isMulty) {
         searchParams.set(key, value);
         window.history.pushState({}, '', url);
@@ -23,30 +21,12 @@ export function setQueryParams(key: string, value: string, isMulty = false): voi
         } else {
             valuesArr = valuesArr.filter((element: string) => element !== value);
         }
-        if (valuesArr.length === 0) {
-            searchParams.delete(key);
-            window.history.pushState({}, '', url);
-            removeParamsFromLocalStorage(key);
-        } else {
-            const strParam: string = valuesArr.join(',');
-            searchParams.set(key, strParam);
-            window.history.pushState({}, '', url);
-            addQueryParamsToLocalStorage();
-        }
-    }
-}
 
-function removeParamsFromLocalStorage(key: string): void {
-    const localProp = 'query';
-    const localStorageObj = <QueryParams>JSON.parse(localStorage.getItem(localProp) || '{}');
-    const localStorageArr = <[string, string | string[]][]>Object.entries(localStorageObj);
-    const filtered = <[string, string | string[]][]>(
-        localStorageArr.filter(([keyParam]) => keyParam === 'mode' || keyParam === key)
-    );
-    const newLocalStorageObj = <QueryParams>Object.fromEntries(filtered);
-    const valueJson: string = JSON.stringify(newLocalStorageObj);
-    localStorage.removeItem(localProp);
-    localStorage.setItem(localProp, valueJson);
+        const strParam: string = valuesArr.join(',');
+        searchParams.set(key, strParam);
+        window.history.pushState({}, '', url);
+        addQueryParamsToLocalStorage();
+    }
 }
 
 export function addQueryParamsToLocalStorage(): void {
