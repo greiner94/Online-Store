@@ -1,7 +1,6 @@
-import brandQueryParams from './brandQueryParams';
-import { allBrands } from './productsData';
+import { allBrands } from '../productsData';
 
-function brandFilter(): void {
+function renderBrandFilter(): void {
     const brandFilterElement = document.querySelector('.brand.filter-list.checked-block') as HTMLElement;
     let brandFilterHtml = '';
 
@@ -21,8 +20,6 @@ function brandFilter(): void {
     }
 
     brandFilterElement.innerHTML = brandFilterHtml;
-
-    brandQueryParams();
 }
 
-export default brandFilter;
+export default renderBrandFilter;
