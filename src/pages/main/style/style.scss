@@ -351,6 +351,9 @@
                     .add-cart {
                         content: url("../../../assets/img/card_cart_icon_empty.svg");
                     }
+                    .add-cart.add {
+                        content: url("../../../assets/img/card_cart_icon_add.svg");
+                    }
                     .available {
                         color: #25a53c;
                     }
