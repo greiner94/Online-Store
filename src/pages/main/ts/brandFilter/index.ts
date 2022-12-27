@@ -20,7 +20,6 @@ function brandFilter() {
             setQueryParams('brand', brandName, true);
             filterCardsByBrand();
             checkedBrandSwitcher();
-            quantityBrand();
         }
     });
     window.addEventListener('popstate', () => {
