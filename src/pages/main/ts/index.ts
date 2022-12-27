@@ -7,7 +7,7 @@ import categoryFilter from './categoryFilter';
 import brandFilter from './brandFilter';
 import priceFilter from './priceFilter';
 import stockFilter from './stockFilter';
-import prouductsCarts from './prouductsCarts';
+import productsCards from './productsCards';
 import { switchMode } from './switchMode';
 import { queryReset, querySave } from './queryResetSave';
 
@@ -25,6 +25,6 @@ categoryFilter();
 brandFilter();
 priceFilter();
 stockFilter();
-prouductsCarts();
+productsCards();
 queryReset();
 querySave();
