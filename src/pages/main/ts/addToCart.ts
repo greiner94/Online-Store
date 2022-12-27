@@ -1,5 +1,5 @@
 import { CartData } from './type';
-export function addCart(): void {
+export function listenAddCart(): void {
     const cartIcons: NodeListOf<HTMLElement> = document.querySelectorAll('.add-cart');
     cartIcons.forEach((el, ind) => {
         el.addEventListener('click', (event) => {
@@ -20,11 +20,12 @@ export function addCart(): void {
                     amount: 1,
                     price: productPrice,
                 });
+                toggleIconCart(ind, true);
                 cartAmountAll += 1;
             } else if (newCartData.length < cartData.length) {
                 cartAmountAll -= 1;
+                toggleIconCart(ind, false);
             }
-            toggleIconCart(ind);
             displayHeaderCartAmount(cartAmountAll);
             const valueJson = JSON.stringify(newCartData);
             localStorage.setItem(localProp, valueJson);
@@ -32,18 +33,29 @@ export function addCart(): void {
         });
     });
 }
-
-function toggleIconCart(index: number): void {
+/**
+ *
+ * @param index  index of cart icon when need to show add product
+ * @param isAddToCart if product added use true, if canceled adding - false
+ */
+function toggleIconCart(index: number, isAddToCart: boolean): void {
     const cartIcons: NodeListOf<HTMLElement> = document.querySelectorAll('.add-cart');
     const el = cartIcons[index];
-    if (el.classList.contains('add')) {
+    if (!isAddToCart) {
         el.classList.remove('add');
     } else {
         el.classList.add('add');
     }
 }
 
-function displayHeaderCartAmount(allCartAmount: number): void {
+export function displayHeaderCartAmount(allCartAmount: number): void {
     const headerCartAmount = <HTMLElement>document.querySelector('.cart__amount');
     headerCartAmount.textContent = `${allCartAmount}` || '0';
+}
+
+export function checkAddingCart(currentId: number): boolean {
+    const localProp = 'cart';
+    const cartData: CartData[] = JSON.parse(localStorage.getItem(localProp) || '[]');
+    const indexOfCartElement = Array.from(cartData).findIndex(({ id }) => Number(id) === currentId);
+    return indexOfCartElement !== -1;
 }

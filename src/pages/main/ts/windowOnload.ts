@@ -1,5 +1,6 @@
 import { addQueryParamsToLocalStorage } from './setQueryParams';
 import { switchMode } from './switchMode';
+import { displayHeaderCartAmount } from './addToCart';
 /**
  * Need change. Add parameters for load page
  */
@@ -8,7 +9,10 @@ export function windowOnload(): void {
     window.addEventListener('popstate', () => {
         addQueryParamsToLocalStorage();
     });
-    changePageWithQueryParams();
+    document.addEventListener('DOMContentLoaded', () => {
+        changePageWithQueryParams();
+        changePageWithOtherParams();
+    });
 }
 
 function changePageWithQueryParams(): void {
@@ -21,4 +25,10 @@ function changePageWithQueryParams(): void {
             switchMode<string>(value);
         }
     }
+}
+
+function changePageWithOtherParams() {
+    const localPropCartAllAmount = 'all-amount';
+    const allAmount = Number(<string>localStorage.getItem(localPropCartAllAmount));
+    displayHeaderCartAmount(allAmount);
 }
