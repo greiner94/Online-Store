@@ -10,10 +10,12 @@ function filterCardsByBrand(): void {
         filteredBrands = JSON.parse(localStorage.getItem('query') || '').brand.split(',');
     }
     const ProductDataCards = data.products;
+    const filteredByBrandsCards = ProductDataCards.filter(({ brand }) => filteredBrands?.includes(brand));
 
     if (filteredBrands?.length !== 1) {
-        const filteredByBrandsCards = ProductDataCards.filter(({ brand }) => filteredBrands?.includes(brand));
-
+        localStorage.setItem('productCards', JSON.stringify(filteredByBrandsCards));
+        renderProuductsCards(filteredByBrandsCards);
+    } else if (filteredBrands[0] && filteredBrands?.length == 1) {
         localStorage.setItem('productCards', JSON.stringify(filteredByBrandsCards));
         renderProuductsCards(filteredByBrandsCards);
     } else {
