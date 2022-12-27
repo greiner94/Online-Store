@@ -1,12 +1,12 @@
+import filterController from '../filterController';
 import { setQueryParams } from '../setQueryParams';
 import checkedBrandSwitcher from './checkedBrandSwitcher';
-import filterCardsByBrand from './filterCardsByBrand';
 import quantityBrand from './quantityBrand';
 import renderBrandFilter from './renderBrandFilter';
 
 function brandFilter() {
     renderBrandFilter();
-    filterCardsByBrand();
+    filterController();
     checkedBrandSwitcher();
     quantityBrand();
 
@@ -16,20 +16,18 @@ function brandFilter() {
         const brandName = target.firstElementChild?.textContent || '';
 
         if (target.classList.contains('filter-item')) {
-            target.classList.toggle('checked');
             setQueryParams('brand', brandName, true);
-            filterCardsByBrand();
+            filterController();
             checkedBrandSwitcher();
-            quantityBrand();
         }
     });
     window.addEventListener('popstate', () => {
         checkedBrandSwitcher();
-        filterCardsByBrand();
+        filterController();
     });
     const resetBtn = document.querySelector('.reset-filters') as HTMLElement;
     resetBtn.addEventListener('click', () => {
-        filterCardsByBrand();
+        filterController();
         checkedBrandSwitcher();
     });
 }

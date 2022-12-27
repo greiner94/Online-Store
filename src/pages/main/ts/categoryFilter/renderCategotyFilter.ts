@@ -1,6 +1,6 @@
-import { allCategories } from './productsData';
+import { allCategories } from '../productsData';
 
-function categoryFilter(): void {
+function renderCategoryFilter(): void {
     const categoryFilterElement = document.querySelector(
         '.product-categories.filter-list.checked-block'
     ) as HTMLElement;
@@ -24,4 +24,4 @@ function categoryFilter(): void {
     categoryFilterElement.innerHTML = categoryFilterHtml;
 }
 
-export default categoryFilter;
+export default renderCategoryFilter;
