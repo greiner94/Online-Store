@@ -294,7 +294,7 @@
             
             
         }
-        .card-block {
+        .cards-block {
             margin-top: 20px;
             display: flex;
             flex-wrap: wrap;
@@ -410,7 +410,7 @@
             display: none;
         }
         .product-section {
-            .card-block {
+            .cards-block {
                 .card {
                     width: 50%;
                 } 
@@ -454,7 +454,7 @@
 @media screen and (max-width: 500px) {
     .main {
         .product-section {
-           .card-block {
+           .cards-block {
                 .card {
                     width: 100%;
                 } 
@@ -477,7 +477,7 @@
 @media (min-width: 1450px) {
     .main {
         .product-section {
-            .card-block {
+            .cards-block {
                 .card {
                     width: 25%;
                 }
@@ -493,7 +493,7 @@
 @media (min-width: 2250px) {
     .main {
         .product-section {
-            .card-block {
+            .cards-block {
                 .card {
                     width: 20%;
                 }
