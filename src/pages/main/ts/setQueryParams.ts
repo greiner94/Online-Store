@@ -16,14 +16,21 @@ export function setQueryParams(key: string, value: string, isMulty = false): voi
         addQueryParamsToLocalStorage();
     } else {
         let valuesArr: string[] = searchParams.get(key)?.split(',') || [];
+        console.log('searchParams.get(key)', searchParams.get(key));
         if (!valuesArr.includes(value)) {
             valuesArr.push(value);
         } else {
             valuesArr = valuesArr.filter((element: string) => element !== value);
         }
-
-        const strParam: string = valuesArr.join(',');
-        searchParams.set(key, strParam);
+        console.log('valuesArr', valuesArr);
+        if ((valuesArr[0] === '' && valuesArr.length === 1) || valuesArr.length === 0) {
+            searchParams.delete(key);
+            console.log('first element equal "", length = ', valuesArr.length);
+        } else {
+            const strParam: string = valuesArr.join(',');
+            searchParams.set(key, strParam);
+            console.log('set new params, length = ', valuesArr.length);
+        }
         window.history.pushState({}, '', url);
         addQueryParamsToLocalStorage();
     }
