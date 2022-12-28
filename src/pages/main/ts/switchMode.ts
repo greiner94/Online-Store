@@ -20,3 +20,14 @@ export function switchMode<T>(data: T): void {
         setQueryParams('mode', 'list');
     }
 }
+
+export function listenSwitchingMode() {
+    const modeCards = <HTMLElement>document.querySelector('.view-mode__cards');
+    const modeList = <HTMLElement>document.querySelector('.view-mode__list');
+    modeCards.addEventListener('click', (e: Event) => {
+        switchMode<Event>(e);
+    });
+    modeList.addEventListener('click', (e: Event) => {
+        switchMode<Event>(e);
+    });
+}
