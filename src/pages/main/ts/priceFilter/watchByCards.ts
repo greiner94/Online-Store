@@ -1,5 +1,3 @@
-import renderProuductsCards from '../renderProuductsCards';
-
 interface productData {
     id: number;
     title: string;
