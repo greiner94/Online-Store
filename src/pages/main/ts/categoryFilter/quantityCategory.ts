@@ -13,7 +13,7 @@ interface productData {
 }
 
 function quantityCategory() {
-    const cardsWrapper = document.querySelector('.card-block') as HTMLElement;
+    const cardsWrapper = document.querySelector('.cards-block') as HTMLElement;
     const observer = new MutationObserver(() => {
         changeFliterCategoryQuantity();
     });

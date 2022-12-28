@@ -14,16 +14,10 @@ export function queryReset(): void {
         // reset url query params except mode
         const url = new URL(window.location.href);
         const searchParams: URLSearchParams = url.searchParams;
-        const keysSearchParams: IterableIterator<[string, string]> = searchParams.entries();
-        for (const [key] of keysSearchParams) {
-            if (key !== 'mode') {
-                searchParams.delete(key);
-            }
-        }
-        window.history.pushState({}, '', url);
-        searchParams.forEach((el) => {
-            searchParams.delete(el);
-        });
+        const selectedMode = searchParams.get('mode') || '';
+        const clearUrl = new URL(window.location.origin);
+        clearUrl.searchParams.set('mode', selectedMode);
+        window.history.pushState({}, '', clearUrl);
     });
 }
 export function querySave(): void {
