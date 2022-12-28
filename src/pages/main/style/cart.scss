@@ -1,5 +1,25 @@
-@import '../../../assets/scss/global.scss';
-
+.main.cart-block {
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.empty-cart {
+  text-align: center;
+ 
+  .cart-image {
+    content: url('../../../assets/img/empty_cart.png');
+    width: 50vw;
+    max-width: 370px;
+    height: 50vw;
+    max-height: 370px;
+    margin: 0 auto 20px;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
 .breadcrumbs {
   padding: 30px 0 20px 0;
   display: flex;
@@ -89,6 +109,7 @@
 .pages {
   display: flex;
   align-items: center;
+  margin-right: 14px;
 
   &__name {
     font-weight: 400;
@@ -113,6 +134,7 @@
 
   &__input {
     margin: 0 7px;
+    text-align: center;
   }
 }
 
@@ -182,8 +204,7 @@
   display: flex;
   padding: 15px 0;
   border-bottom: 1px solid #EBEBEB;
-  justify-content: space-between;
-
+  
   &__number {
     display: flex;
     align-items: center;
@@ -193,6 +214,8 @@
 
   &__img {
     max-width: 95px;
+    display: flex;
+    align-items: center;
     img {
       width: 100%;
     }
@@ -201,6 +224,7 @@
   &__descr {
     width: 400px;
     margin-left: 26px;
+    flex-grow: 1;
   }
 
   &__short-descr {
@@ -211,17 +235,22 @@
   &__details {
     margin-top: 7px;
     display: grid;
-    column-gap: 40px;
+    column-gap: 16%;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
     row-gap: 5px;
   }
 
   &__meta-wrapper {
+    grid-column: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
-
+  &__rating {
+    grid-column: 2;
+    grid-row: 1/-1;
+    font-size: 14px;
+  }
   &__meta-name {
     color: #757575;
     font-size: 14px;
@@ -261,6 +290,7 @@
 
   &__input {
     margin: 0 14px;
+    text-align: center;
   }
 }
 
@@ -289,7 +319,7 @@
     row-gap: 10px;
 
     &__descr {
-      width: auto;
+      width: 70%;
     }
 
     &__amount-toggler {
