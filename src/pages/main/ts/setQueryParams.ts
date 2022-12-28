@@ -35,7 +35,11 @@ export function addQueryParamsToLocalStorage(): void {
     const keys = url.searchParams.keys();
     const queryParams: QueryParams = {};
     for (const key of keys) {
-        queryParams[key] = <string>url.searchParams.get(key);
+        if ((url.searchParams.get(key) || '')[0] == ',') {
+            queryParams[key] = <string>url.searchParams.get(key)?.slice(1);
+        } else {
+            queryParams[key] = <string>url.searchParams.get(key);
+        }
     }
     const valueJson = JSON.stringify(queryParams);
     localStorage.setItem(localProp, valueJson);
