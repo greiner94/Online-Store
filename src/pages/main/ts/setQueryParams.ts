@@ -21,9 +21,12 @@ export function setQueryParams(key: string, value: string, isMulty = false): voi
         } else {
             valuesArr = valuesArr.filter((element: string) => element !== value);
         }
-
-        const strParam: string = valuesArr.join(',');
-        searchParams.set(key, strParam);
+        if ((valuesArr[0] === '' && valuesArr.length === 1) || valuesArr.length === 0) {
+            searchParams.delete(key);
+        } else {
+            const strParam: string = valuesArr.join(',');
+            searchParams.set(key, strParam);
+        }
         window.history.pushState({}, '', url);
         addQueryParamsToLocalStorage();
     }
