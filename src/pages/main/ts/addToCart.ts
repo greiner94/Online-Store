@@ -3,7 +3,6 @@ export function listenAddCart(): void {
     const cartIcons: NodeListOf<HTMLElement> = document.querySelectorAll('.add-cart');
     cartIcons.forEach((el, ind) => {
         el.addEventListener('click', (event) => {
-            console.log('event', event.target);
             const cart = event.target as HTMLElement;
             const productId = Number(cart.dataset.id);
             const productPrice = Number(cart.dataset.price);
