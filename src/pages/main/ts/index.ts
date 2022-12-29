@@ -12,6 +12,7 @@ import renderProuductsCards from './renderProuductsCards';
 import { listenSwitchingMode } from './switchMode';
 import { queryReset, querySave } from './queryResetSave';
 import { headerImplement } from './headerImplement';
+import sorting from './sorting';
 
 headerImplement();
 const productsList = data.products;
@@ -24,3 +25,4 @@ brandFilter();
 priceFilter();
 stockFilter();
 listenSwitchingMode();
+sorting();

@@ -1,6 +1,7 @@
 import data from '../../../assets/products.json';
 import { allPrices, allStocks } from './productsData';
 import renderProuductsCards from './renderProuductsCards';
+import sort from './sorting/sort';
 interface queryData {
     priceMax?: number;
     priceMin?: number;
@@ -42,5 +43,6 @@ function filterController() {
 
     localStorage.setItem('productCards', JSON.stringify(filterdProductsByRange));
     renderProuductsCards(filterdProductsByRange);
+    sort();
 }
 export default filterController;
