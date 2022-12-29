@@ -12,14 +12,9 @@ function renderPriceFilter(): void {
     endPriceElement.textContent = maxPrice.toString();
 
     const inputs = document.querySelectorAll('.sidebar__filter-price input');
-    inputs.forEach((input, index) => {
+    inputs.forEach((input) => {
         input.setAttribute('min', minPrice.toString());
         input.setAttribute('max', maxPrice.toString());
-        if (index == 0) {
-            input.setAttribute('value', minPrice.toString());
-        } else {
-            input.setAttribute('value', maxPrice.toString());
-        }
     });
 }
 

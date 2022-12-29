@@ -1,11 +1,11 @@
 import data from '../../../assets/products.json';
-import { allPrices } from './productsData';
+import { allPrices, allStocks } from './productsData';
 import renderProuductsCards from './renderProuductsCards';
 interface queryData {
     priceMax?: number;
     priceMin?: number;
-    rating?: number;
-    stock?: number;
+    stockMax?: number;
+    stockMin?: number;
     brand?: string;
     category?: string;
 }
@@ -20,15 +20,25 @@ function filterController() {
             query.brand?.split(',').some((brandName) => brandName == product.brand)
         );
     });
+
     filterdProducts = filterdProducts.length > 0 ? filterdProducts : productsList;
+
     const sortedAllPrices = allPrices.sort((a, b) => a - b);
-    const loweststProductPrice = sortedAllPrices[0];
-    const hieghtstProductPrice = sortedAllPrices[sortedAllPrices.length - 1];
-    const filterdProductsByRange = filterdProducts.filter(
-        (product) =>
-            (query.priceMin || loweststProductPrice) <= product.price &&
-            (query.priceMax || hieghtstProductPrice) >= product.price
-    );
+    const lowestProductPrice = sortedAllPrices[0];
+    const hieghtProductPrice = sortedAllPrices[sortedAllPrices.length - 1];
+
+    const sortedAllStocks = allStocks.sort((a, b) => a - b);
+    const lowestProductStock = sortedAllStocks[0];
+    const hieghtProductStock = sortedAllStocks[sortedAllStocks.length - 1];
+
+    const filterdProductsByRange = filterdProducts.filter((product) => {
+        return (
+            (query.priceMin || lowestProductPrice) <= product.price &&
+            (query.priceMax || hieghtProductPrice) >= product.price &&
+            (query.stockMin || lowestProductStock) <= product.stock &&
+            (query.stockMax || hieghtProductStock) >= product.stock
+        );
+    });
 
     localStorage.setItem('productCards', JSON.stringify(filterdProductsByRange));
     renderProuductsCards(filterdProductsByRange);
