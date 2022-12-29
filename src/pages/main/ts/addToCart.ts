@@ -55,6 +55,6 @@ export function displayHeaderCartAmount(allCartAmount: number): void {
 export function checkAddingCart(currentId: number): boolean {
     const localProp = 'cart';
     const cartData: CartData[] = JSON.parse(localStorage.getItem(localProp) || '[]');
-    const indexOfCartElement = Array.from(cartData).findIndex(({ id }) => Number(id) === currentId);
+    const indexOfCartElement = Array.from(cartData).findIndex(({ id }) => Number(id) === currentId) || -1;
     return indexOfCartElement !== -1;
 }
