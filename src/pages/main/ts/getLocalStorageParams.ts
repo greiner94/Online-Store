@@ -15,3 +15,8 @@ export function getCartFromLocalStorage(): CartData[] {
     const localPropCart = 'cart';
     return JSON.parse(localStorage.getItem(localPropCart) || '[]');
 }
+
+export function getCartAmountFromLocalStorage(): number {
+    const localPropCart = 'all-amount';
+    return JSON.parse(localStorage.getItem(localPropCart) || '0');
+}

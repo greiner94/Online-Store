@@ -1,8 +1,9 @@
 import '../style/cart.scss';
 import { displayBreadcrumbs } from './breadcrumbsDisplay';
-import { getCartFromLocalStorage } from './getLocalStorageParams';
+import { getCartAmountFromLocalStorage, getCartFromLocalStorage } from './getLocalStorageParams';
 import data from '../../../assets/products.json';
 import { CartData } from './type';
+import { setCartDataToLocalStorage, setCartAmountToLocalStorage } from './setLocalStorageParams';
 
 export function listenHeaderCart(): void {
     const headerCartElement = document.querySelector('.cart');
@@ -13,14 +14,13 @@ function displayCart() {
     hideMainPage();
     displayBreadcrumbs();
     const main = <HTMLElement>document.querySelector('.main');
+    main.classList.add('cart-block');
     const cartFragment = <DocumentFragment>document.createDocumentFragment();
     const cartHead = document.createElement('div');
     cartHead.classList.add('products__head');
     showCartHead(cartHead);
     const productsCartList = document.createElement('div');
     productsCartList.classList.add('products__list');
-    // const productCartElement = document.createElement('div');
-    // productCartElement.classList.add('product');
     cartFragment.append(cartHead);
     const cartLocalStorage = getCartFromLocalStorage();
     if (cartLocalStorage.length === 0) {
@@ -30,11 +30,10 @@ function displayCart() {
     }
     cartFragment.append(productsCartList);
     main.appendChild(cartFragment);
+    listenCartBlock();
 }
 
 function hideMainPage(): void {
-    const main = <HTMLElement>document.querySelector('.main');
-    main.classList.add('cart-block');
     const productsSection = <HTMLElement>document.querySelector('.product-section');
     const sidebar = <HTMLElement>document.querySelector('.sidebar');
     productsSection.classList.add('none');
@@ -66,7 +65,7 @@ function showCartHead(element: HTMLElement): void {
                             </div>
                         </div>`;
 }
-function showEmptyCart(parentNode: HTMLElement): void {
+export function showEmptyCart(parentNode: HTMLElement): void {
     parentNode.innerHTML = `<div class="empty-cart">
                                 <div class="cart-image"></div>
                                 <h3>You cart is empty</h3>
@@ -149,13 +148,56 @@ function getCartListCode(cartLocalStorage: CartData[]): string {
                                     <div class="product__price money">
                                         ${price}
                                     </div>
-                                    <div class="product__amount-toggler">
-                                        <img src="../assets/minus.svg" alt="minus" class="product__plus">
+                                    <div class="product__amount-toggler"  data-id="${id}" >
+                                        <img src="../assets/minus.svg" alt="minus" class="product__plus" data-minus>
                                         <input type="number" class="products__input product__input" value="${amount}">
-                                        <img src="../assets/plus.svg" alt="plus" class="product__plus">
+                                        <img src="../assets/plus.svg" alt="plus" class="product__plus" data-plus>
                                     </div>
                                 </div>                                
                             </div>`;
     });
     return productCartElInner;
+}
+
+function listenCartBlock(): void {
+    const cartProductsItems: NodeListOf<Element> = document.querySelectorAll('.product');
+    const headerCartAmount = <HTMLElement>document.querySelector('.cart__amount');
+    const cartBlock = <HTMLElement>document.querySelector('.cart-block');
+    const cartData: CartData[] = getCartFromLocalStorage();
+    let allAmount: number = getCartAmountFromLocalStorage();
+    if (cartData.length > 0) {
+        cartBlock.addEventListener('click', (event: MouseEvent) => {
+            const target = <HTMLElement>event.target;
+            const currentProduct = <HTMLElement>target.closest('.product__amount-toggler');
+            const currentInput = <HTMLInputElement>currentProduct.childNodes[3];
+            const currentId = Number(<string>currentProduct.dataset.id);
+            for (let i = 0; i < cartData.length; i++) {
+                const { id } = cartData[i];
+                let { amount } = cartData[i];
+                if (id === currentId && 'minus' in target.dataset) {
+                    amount -= 1;
+                    allAmount -= 1;
+                    cartData[i].amount = amount;
+                    headerCartAmount.textContent = allAmount.toString();
+                    currentInput.value = amount.toString();
+                    setCartDataToLocalStorage(cartData);
+                    setCartAmountToLocalStorage(allAmount);
+                    if (amount === 0) {
+                        cartProductsItems[i].remove();
+                        break;
+                    }
+                    break;
+                } else if (id === currentId && 'plus' in target.dataset) {
+                    amount += 1;
+                    allAmount += 1;
+                    cartData[i].amount = amount;
+                    headerCartAmount.textContent = allAmount.toString();
+                    currentInput.value = amount.toString();
+                    setCartDataToLocalStorage(cartData);
+                    setCartAmountToLocalStorage(allAmount);
+                    break;
+                }
+            }
+        });
+    }
 }
