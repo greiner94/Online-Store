@@ -16,15 +16,19 @@ interface queryData {
 function filterController() {
     const query: queryData = JSON.parse(localStorage.getItem('query') || '');
     const productsList = data.products;
+    let filterdProducts = productsList;
 
-    let filterdProducts = productsList.filter((product) => {
-        return (
-            query.category?.split(',').some((categoryName) => categoryName == product.category) ||
+    if (query.category) {
+        filterdProducts = productsList.filter((product) =>
+            query.category?.split(',').some((categoryName) => categoryName == product.category)
+        );
+    }
+
+    if (query.brand) {
+        filterdProducts = filterdProducts.filter((product) =>
             query.brand?.split(',').some((brandName) => brandName == product.brand)
         );
-    });
-
-    filterdProducts = filterdProducts.length > 0 ? filterdProducts : productsList;
+    }
 
     const sortedAllPrices = allPrices.sort((a, b) => a - b);
     const lowestProductPrice = sortedAllPrices[0];
