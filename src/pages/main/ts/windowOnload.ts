@@ -1,6 +1,7 @@
 import { addQueryParamsToLocalStorage } from './setQueryParams';
 import { switchMode } from './switchMode';
 import { displayHeaderCartAmount } from './addToCart';
+import { getTotalCartSum } from './getLocalStorageParams';
 /**
  * Need change. Add parameters for load page
  */
@@ -27,8 +28,10 @@ function changePageWithQueryParams(): void {
     }
 }
 
-function changePageWithOtherParams() {
+function changePageWithOtherParams(): void {
     const localPropCartAllAmount = 'all-amount';
     const allAmount = Number(<string>localStorage.getItem(localPropCartAllAmount));
     displayHeaderCartAmount(allAmount);
+    const headerTotalSum = <HTMLElement>document.querySelector('.cart-total__sum');
+    headerTotalSum.textContent = getTotalCartSum().toString();
 }
