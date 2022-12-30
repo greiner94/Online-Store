@@ -9,6 +9,8 @@ interface queryData {
     stockMin?: number;
     brand?: string;
     category?: string;
+    search?: string;
+    title?: string;
 }
 
 function filterController() {
@@ -32,12 +34,15 @@ function filterController() {
     const lowestProductStock = sortedAllStocks[0];
     const hieghtProductStock = sortedAllStocks[sortedAllStocks.length - 1];
 
+    const searchInput = document.querySelector('.search-form__input') as HTMLInputElement;
+
     const filterdProductsByRange = filterdProducts.filter((product) => {
         return (
             (query.priceMin || lowestProductPrice) <= product.price &&
             (query.priceMax || hieghtProductPrice) >= product.price &&
             (query.stockMin || lowestProductStock) <= product.stock &&
-            (query.stockMax || hieghtProductStock) >= product.stock
+            (query.stockMax || hieghtProductStock) >= product.stock &&
+            product.title?.toLowerCase().includes(searchInput.value.toLowerCase())
         );
     });
 

@@ -13,6 +13,7 @@ import { listenSwitchingMode } from './switchMode';
 import { queryReset, querySave } from './queryResetSave';
 import { headerImplement } from './headerImplement';
 import sorting from './sorting';
+import search from './search';
 
 headerImplement();
 const productsList = data.products;
@@ -26,3 +27,4 @@ priceFilter();
 stockFilter();
 listenSwitchingMode();
 sorting();
+search();
