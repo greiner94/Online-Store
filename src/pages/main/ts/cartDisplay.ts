@@ -11,6 +11,8 @@ export function listenHeaderCart(): void {
 }
 
 function displayCart() {
+    const headerCartIcon = document.querySelector('.cart');
+    headerCartIcon?.removeEventListener('click', displayCart);
     hideMainPage();
     displayBreadcrumbs();
     const main = <HTMLElement>document.querySelector('.main');
