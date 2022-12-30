@@ -14,6 +14,7 @@ import { queryReset, querySave } from './queryResetSave';
 import { headerImplement } from './headerImplement';
 import sorting from './sorting';
 import search from './search';
+import indicationSelectedProducts from './indicationSelectedProducts';
 
 headerImplement();
 const productsList = data.products;
@@ -28,3 +29,4 @@ stockFilter();
 listenSwitchingMode();
 sorting();
 search();
+indicationSelectedProducts();
