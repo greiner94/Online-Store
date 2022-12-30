@@ -20,3 +20,13 @@ export function getCartAmountFromLocalStorage(): number {
     const localPropCart = 'all-amount';
     return JSON.parse(localStorage.getItem(localPropCart) || '0');
 }
+
+export function getTotalCartSum(): number {
+    const cartData = getCartFromLocalStorage();
+    let totalSum = 0;
+    cartData.forEach(({ amount, price }, ind) => {
+        totalSum += amount * price;
+        console.log('totalSum', ind, totalSum);
+    });
+    return totalSum;
+}
