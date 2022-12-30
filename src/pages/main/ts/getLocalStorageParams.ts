@@ -24,9 +24,8 @@ export function getCartAmountFromLocalStorage(): number {
 export function getTotalCartSum(): number {
     const cartData = getCartFromLocalStorage();
     let totalSum = 0;
-    cartData.forEach(({ amount, price }, ind) => {
+    cartData.forEach(({ amount, price }) => {
         totalSum += amount * price;
-        console.log('totalSum', ind, totalSum);
     });
     return totalSum;
 }

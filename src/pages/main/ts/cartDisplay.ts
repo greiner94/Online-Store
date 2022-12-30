@@ -108,6 +108,7 @@ export function showEmptyCart(parentNode: HTMLElement): void {
                                 <div class="cart-image"></div>
                                 <h3>You cart is empty</h3>
                                 <p>Looks like you have not added anything to your cart</p>
+                                <button class="home-btn">Go shopping</button>
                             </div>`;
 }
 
@@ -207,6 +208,7 @@ function listenCartBlock(): void {
     if (cartData.length > 0) {
         cartBlock.addEventListener('click', (event: MouseEvent) => {
             const totalSum = <HTMLElement>document.querySelector('.summary__total-amount');
+            const headerTotalSum = <HTMLElement>document.querySelector('.cart-total__sum');
             const target = <HTMLElement>event.target;
             const currentProduct = <HTMLElement>target.closest('.product__amount-toggler');
             const currentInput = <HTMLInputElement>currentProduct.childNodes[3];
@@ -223,7 +225,7 @@ function listenCartBlock(): void {
                     currentInput.value = amount.toString();
                     setCartDataToLocalStorage(cartData);
                     setCartAmountToLocalStorage(allAmount);
-                    totalSum.textContent = getTotalCartSum().toString();
+                    headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
                     if (amount === 0) {
                         cartProductsItems[i].remove();
                         break;
@@ -238,7 +240,7 @@ function listenCartBlock(): void {
                     currentInput.value = amount.toString();
                     setCartDataToLocalStorage(cartData);
                     setCartAmountToLocalStorage(allAmount);
-                    totalSum.textContent = getTotalCartSum().toString();
+                    headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
                     break;
                 }
             }
