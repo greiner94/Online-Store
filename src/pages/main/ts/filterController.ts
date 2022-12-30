@@ -2,6 +2,7 @@ import data from '../../../assets/products.json';
 import { allPrices, allStocks } from './productsData';
 import renderProuductsCards from './renderProuductsCards';
 import sort from './sorting/sort';
+import img from '../../../assets/img/no-product.png';
 interface queryData {
     priceMax?: number;
     priceMin?: number;
@@ -51,7 +52,22 @@ function filterController() {
     });
 
     localStorage.setItem('productCards', JSON.stringify(filterdProductsByRange));
-    renderProuductsCards(filterdProductsByRange);
-    sort();
+    if (filterdProductsByRange.length != 0) {
+        renderProuductsCards(filterdProductsByRange);
+        sort();
+    } else {
+        renderNoProductNotification();
+    }
+
+}
+
+function renderNoProductNotification() {
+    const productsWrapper = document.querySelector('.cards-block') as HTMLElement;
+    const productWrapperInnerHtml = `
+        <div class='products-not-found'>
+            <img src=${img} alt='products not found'>
+        </div>
+    `;
+    productsWrapper.innerHTML = productWrapperInnerHtml;
 }
 export default filterController;

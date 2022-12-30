@@ -415,6 +415,11 @@
                 
         }
     }
+    .products-not-found {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 }
 
 @media screen and (max-width: 805px) {
