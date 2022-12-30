@@ -1,8 +1,10 @@
 import { CartData } from './type';
+import { getTotalCartSum } from './getLocalStorageParams';
 export function listenAddCart(): void {
     const cartIcons: NodeListOf<HTMLElement> = document.querySelectorAll('.add-cart');
     cartIcons.forEach((el, ind) => {
         el.addEventListener('click', (event) => {
+            const headerTotalSum = <HTMLElement>document.querySelector('.cart-total__sum');
             const cart = event.target as HTMLElement;
             const productId = Number(cart.dataset.id);
             const productPrice = Number(cart.dataset.price);
@@ -29,6 +31,7 @@ export function listenAddCart(): void {
             const valueJson = JSON.stringify(newCartData);
             localStorage.setItem(localProp, valueJson);
             localStorage.setItem(localProp2, `${cartAmountAll}`);
+            headerTotalSum.textContent = getTotalCartSum().toString();
         });
     });
 }
@@ -55,6 +58,8 @@ export function displayHeaderCartAmount(allCartAmount: number): void {
 export function checkAddingCart(currentId: number): boolean {
     const localProp = 'cart';
     const cartData: CartData[] = JSON.parse(localStorage.getItem(localProp) || '[]');
-    const indexOfCartElement = Array.from(cartData).findIndex(({ id }) => Number(id) === currentId);
+    const indexOfCartElement = Array.from(cartData).findIndex(({ id }) => {
+        return Number(id) === Number(currentId);
+    });
     return indexOfCartElement !== -1;
 }

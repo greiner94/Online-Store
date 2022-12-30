@@ -6,6 +6,7 @@
 }
 .empty-cart {
   text-align: center;
+  margin: 30px auto;
  
   .cart-image {
     content: url('../../../assets/img/empty_cart.png');
@@ -18,6 +19,19 @@
   h3 {
     font-size: 20px;
     font-weight: bold;
+  }
+  .home-btn {
+    display: inline-block;
+    border-radius: 5px;
+    background: #25A53C;
+    padding: 11px 25px;
+    font-size: 18px;
+    transition: background 200ms;
+    margin-top: 15px;
+
+    &:hover {
+      background: #3BD356;
+    }
   }
 }
 .breadcrumbs {
@@ -147,6 +161,7 @@
   padding: 37px 48px 23px 48px;
   border: 1px solid #D2D2D2;
   border-radius: 5px;
+  margin-top: 15px;
 
   &__title {
     font-size: 32px;
@@ -342,4 +357,7 @@
     margin-top: 20px;
     width: auto;
   }
+}
+.none {
+  display: none;
 }
