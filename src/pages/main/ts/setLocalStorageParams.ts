@@ -6,13 +6,13 @@ export function setCartDataToLocalStorage(newCartData: CartData[]): void {
     localStorage.setItem('cart', newCartDataJson);
 }
 export function setCartAmountToLocalStorage(newAmount: number): void {
-    const productsCartList = <HTMLElement>document.querySelector('.products__list');
+    const wrapper = <HTMLElement>document.querySelector('.product-cart__wrapper');
     const localProp = 'all-amount';
     if (newAmount > 0) {
         const newAmountJson: string = JSON.stringify(newAmount);
         localStorage.setItem(localProp, newAmountJson);
     } else {
         localStorage.removeItem(localProp);
-        showEmptyCart(productsCartList);
+        showEmptyCart(wrapper);
     }
 }
