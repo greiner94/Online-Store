@@ -4,6 +4,7 @@
   margin: 0 auto;
   padding: 0 20px;
 }
+
 .empty-cart {
   text-align: center;
   margin: 30px auto;
@@ -32,7 +33,9 @@
     &:hover {
       background: #3BD356;
     }
+   
   }
+  
 }
 .breadcrumbs {
   padding: 30px 0 20px 0;
@@ -307,6 +310,29 @@
     margin: 0 14px;
     text-align: center;
   }
+}
+.all-pages{
+  color: #757575;
+}
+
+.navigate {
+  content: url('../../../assets/img/large-arrow.svg');
+  width: 16px;
+  height: 30px;
+
+  &.non-active {
+    content:'';
+  }
+}
+.quantity__input {
+  text-align: center;
+}
+.all-products-name{
+  margin-left: 10px;
+  color: #757575;
+}
+.pages {
+  margin-left: 72px;
 }
 
 @media (max-width: 1030px) {
