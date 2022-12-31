@@ -144,7 +144,6 @@ function showCartListCode(): void {
     let currentPage = page;
     if (page > countPages) {
         currentPage = countPages;
-        console.log('currentPage', currentPage);
         setNumberOfPageToLocalStorage(currentPage);
         updatePageValue();
     }
@@ -293,7 +292,6 @@ function listenCartBlock(): void {
                 if (page > 1) {
                     page -= 1;
                     pageInput.value = page.toString();
-                    console.log('pageInput.value', pageInput.value);
                     setNumberOfPageToLocalStorage(page);
                     showCartListCode();
                     toggleArrowStyle();
@@ -305,7 +303,6 @@ function listenCartBlock(): void {
                 if (page < countPages) {
                     page += 1;
                     pageInput.value = page.toString();
-                    console.log('pageInput.value', pageInput.value);
                     setNumberOfPageToLocalStorage(page);
                     showCartListCode();
                     toggleArrowStyle();
@@ -350,21 +347,17 @@ export function updatePageValue() {
     allPages.textContent = countPages.toString();
     const allProducts = <HTMLElement>document.querySelector('.all-products');
     allProducts.textContent = amountProductsInCart.toString();
-    console.log('inputElement.value', inputElement.value);
 }
 function toggleArrowStyle() {
     const { countPages, page } = getPagesParamFromLocalStorage();
     const navigateArrow: NodeListOf<Element> = document.querySelectorAll('.navigate');
-    console.log('navigateArrow', navigateArrow);
     if (page === 1 && countPages === 1) {
         navigateArrow[0].classList.add('non-active');
         navigateArrow[1].classList.add('non-active');
     } else if (page === 1) {
-        console.log('non-active');
         navigateArrow[0].classList.add('non-active');
         navigateArrow[1].classList.remove('non-active');
     } else if (page === countPages) {
-        console.log('non-active');
         navigateArrow[0].classList.remove('non-active');
         navigateArrow[1].classList.add('non-active');
     } else {
