@@ -1,9 +1,15 @@
 import '../style/cart.scss';
-import { displayBreadcrumbs } from './breadcrumbsDisplay';
-import { getCartAmountFromLocalStorage, getCartFromLocalStorage, getTotalCartSum } from './getLocalStorageParams';
+import { displayBreadcrumbsCart } from './breadcrumbsDisplay';
+import { getSingleParamFromLocalStorage, getCartFromLocalStorage, getTotalCartSum } from './getLocalStorageParams';
 import data from '../../../assets/products.json';
 import { CartData } from './type';
-import { setCartDataToLocalStorage, setCartAmountToLocalStorage } from './setLocalStorageParams';
+import {
+    setCartDataToLocalStorage,
+    setCartAmountToLocalStorage,
+    setAmountProductsOnPageToLocalstorage,
+    setNumberOfPageToLocalStorage,
+} from './setLocalStorageParams';
+import { setQueryParams } from './setQueryParams';
 
 export function listenHeaderCart(): void {
     const headerCartElement = document.querySelector('.cart');
@@ -14,7 +20,7 @@ function displayCart() {
     const headerCartIcon = document.querySelector('.cart');
     headerCartIcon?.removeEventListener('click', displayCart);
     hideMainPage();
-    displayBreadcrumbs();
+    displayBreadcrumbsCart();
     const main = <HTMLElement>document.querySelector('.main');
     const cartLocalStorage = getCartFromLocalStorage();
     main.classList.add('cart-block');
@@ -34,11 +40,12 @@ function displayCart() {
         showSummaryCart(summaryBlock);
         const productsCartList = document.createElement('div');
         productsCartList.classList.add('products__list');
-        productsCartList.innerHTML = getCartListCode(cartLocalStorage);
         wrapper.append(productsCartList, summaryBlock);
         main.appendChild(cartFragment);
+        showCartListCode();
         listenCartBlock();
     }
+    toggleArrowStyle();
 }
 
 function hideMainPage(): void {
@@ -49,6 +56,9 @@ function hideMainPage(): void {
 }
 
 function showCartHead(element: HTMLElement): void {
+    const { countPages, amountProductsOnPage, amountProductsInCart, page } = getPagesParamFromLocalStorage();
+    setQueryParams('page', page.toString());
+    const quantityInput = amountProductsOnPage ? amountProductsOnPage : amountProductsInCart;
     element.innerHTML = `<h1 class="products__title">
                             Products in cart
                         </h1>
@@ -56,25 +66,29 @@ function showCartHead(element: HTMLElement): void {
                             <div class="quantity__name">
                             Items:
                             </div>
-                            <input class="products__input quantity__input" type="number" value="3">
+                            <input class="products__input quantity__input" type="number" value="${quantityInput}">
+                            <div class="all-products-name"> from <span class="all-products">${amountProductsInCart}</span>
                         </div>
                         <div class="pages">
                             <div class="pages__name">
                             Page:
                             </div>
                             <div class="pages__controls">
-                            <div class="pages__arrow">
-                                <img src="../../assets/large-arrow.svg" alt="navigate arrow">
+                                <div class="pages__arrow navigate" data-left>
+                                   <!-- <img src="../../assets/large-arrow.svg" alt="navigate arrow" class="navigate" > -->
+                                </div>
+                                <input type="number" class="products__input pages__input" value="${page}" controls="false">
+                                <div class="pages__arrow  navigate" data-right>
+                                   <!-- <img src="../../assets/large-arrow.svg" alt="navigate arrow" class="navigate" data-right> -->
+                                </div>
                             </div>
-                            <input type="number" class="products__input pages__input" value="1" controls="false">
-                            <div class="pages__arrow">
-                                <img src="../../assets/large-arrow.svg" alt="navigate arrow">
-                            </div>
-                            </div>
+                            <div class="all-pages">
+                             from <span class="all-pages-value"> ${countPages}</span>
+                             </div>
                         </div>`;
 }
 function showSummaryCart(element: HTMLElement) {
-    const allAmount = getCartAmountFromLocalStorage();
+    const allAmount = getSingleParamFromLocalStorage('all-amount');
     const totalSum = getTotalCartSum();
     element.innerHTML = `<div class="summary__title">
                             Summary
@@ -110,11 +124,30 @@ export function showEmptyCart(parentNode: HTMLElement): void {
                                 <p>Looks like you have not added anything to your cart</p>
                                 <button class="home-btn">Go shopping</button>
                             </div>`;
+    const quantityBlock = document.querySelector('.quantity');
+    quantityBlock?.classList.add('none');
 }
 
-function getCartListCode(cartLocalStorage: CartData[]): string {
+function showCartListCode(): void {
+    updatePageValue();
+    const cartLocalStorage = <CartData[]>getCartFromLocalStorage();
+    const productsCartList = <HTMLElement>document.querySelector('.products__list');
+    productsCartList.innerHTML = '';
+    const { countPages, amountProductsOnPage, page } = getPagesParamFromLocalStorage();
+
+    let start = 0;
+    let finish = 0;
+    let currentPage = page;
+    if (page > countPages) {
+        currentPage = countPages;
+        setNumberOfPageToLocalStorage(currentPage);
+        updatePageValue();
+    }
+    start = amountProductsOnPage * currentPage - amountProductsOnPage;
+    finish = amountProductsOnPage * currentPage;
     let productCartElInner = '';
-    cartLocalStorage.forEach(({ id, amount }, ind) => {
+    for (let i = start; i < finish && i < cartLocalStorage.length; i++) {
+        const { id, amount } = cartLocalStorage[i];
         const {
             title,
             description,
@@ -126,9 +159,9 @@ function getCartListCode(cartLocalStorage: CartData[]): string {
             rating,
             thumbnail,
         } = data.products[id - 1];
-        productCartElInner += `<div class="product">
+        productCartElInner += `<div class="product" data-id="${id}">
                                 <div class="product__number">
-                                    ${ind + 1}
+                                    ${i + 1}
                                 </div>
                                 <div class="product__img">
                                     <img src="${thumbnail}" alt="product photo">
@@ -194,56 +227,131 @@ function getCartListCode(cartLocalStorage: CartData[]): string {
                                     </div>
                                 </div>                                
                             </div>`;
-    });
-    return productCartElInner;
+    }
+    productsCartList.innerHTML = productCartElInner;
 }
 
 function listenCartBlock(): void {
-    const cartProductsItems: NodeListOf<Element> = document.querySelectorAll('.product');
     const headerCartAmount = <HTMLElement>document.querySelector('.cart__amount');
     const cartBlock = <HTMLElement>document.querySelector('.cart-block');
     const cartData: CartData[] = getCartFromLocalStorage();
     const summaryAmount = <HTMLElement>document.querySelector('.summary__products-amount');
-    let allAmount: number = getCartAmountFromLocalStorage();
+    let allAmount: number = getSingleParamFromLocalStorage('all-amount');
+    const amountProductsOnPage = <HTMLInputElement>document.querySelector('.quantity__input');
+    const pageInput = <HTMLInputElement>document.querySelector('.pages__input');
     if (cartData.length > 0) {
         cartBlock.addEventListener('click', (event: MouseEvent) => {
             const totalSum = <HTMLElement>document.querySelector('.summary__total-amount');
             const headerTotalSum = <HTMLElement>document.querySelector('.cart-total__sum');
             const target = <HTMLElement>event.target;
-            const currentProduct = <HTMLElement>target.closest('.product__amount-toggler');
-            const currentInput = <HTMLInputElement>currentProduct.childNodes[3];
-            const currentId = Number(<string>currentProduct.dataset.id);
-            for (let i = 0; i < cartData.length; i++) {
-                const { id } = cartData[i];
-                let { amount } = cartData[i];
-                if (id === currentId && 'minus' in target.dataset) {
-                    amount -= 1;
-                    allAmount -= 1;
-                    cartData[i].amount = amount;
-                    headerCartAmount.textContent = allAmount.toString();
-                    summaryAmount.textContent = allAmount.toString();
-                    currentInput.value = amount.toString();
-                    setCartDataToLocalStorage(cartData);
-                    setCartAmountToLocalStorage(allAmount);
-                    headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
-                    if (amount === 0) {
-                        cartProductsItems[i].remove();
+            if (target.className === 'product__plus' || target.className === 'product__minus') {
+                const currentProduct = <HTMLElement>target.closest('.product__amount-toggler');
+                const currentInput = <HTMLInputElement>currentProduct.childNodes[3];
+                const currentId = Number(<string>currentProduct.dataset.id);
+                for (let i = 0; i < cartData.length; i++) {
+                    const { id } = cartData[i];
+                    let { amount } = cartData[i];
+                    if (id === currentId && 'minus' in target.dataset) {
+                        amount -= 1;
+                        allAmount -= 1;
+                        cartData[i].amount = amount;
+                        headerCartAmount.textContent = allAmount.toString();
+                        summaryAmount.textContent = allAmount.toString();
+                        currentInput.value = amount.toString();
+                        setCartDataToLocalStorage(cartData);
+                        setCartAmountToLocalStorage(allAmount);
+                        headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
+                        if (amount === 0) {
+                            const productElement = <HTMLElement>target.closest('.product');
+                            productElement.remove();
+                            showCartListCode();
+                            break;
+                        }
+                        break;
+                    } else if (id === currentId && 'plus' in target.dataset) {
+                        amount += 1;
+                        allAmount += 1;
+                        cartData[i].amount = amount;
+                        headerCartAmount.textContent = allAmount.toString();
+                        summaryAmount.textContent = allAmount.toString();
+                        currentInput.value = amount.toString();
+                        setCartDataToLocalStorage(cartData);
+                        setCartAmountToLocalStorage(allAmount);
+                        headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
                         break;
                     }
-                    break;
-                } else if (id === currentId && 'plus' in target.dataset) {
-                    amount += 1;
-                    allAmount += 1;
-                    cartData[i].amount = amount;
-                    headerCartAmount.textContent = allAmount.toString();
-                    summaryAmount.textContent = allAmount.toString();
-                    currentInput.value = amount.toString();
-                    setCartDataToLocalStorage(cartData);
-                    setCartAmountToLocalStorage(allAmount);
-                    headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
-                    break;
+                }
+            }
+            if ('left' in target.dataset) {
+                let { page } = getPagesParamFromLocalStorage();
+                if (page > 1) {
+                    page -= 1;
+                    pageInput.value = page.toString();
+                    setNumberOfPageToLocalStorage(page);
+                    showCartListCode();
+                    toggleArrowStyle();
+                }
+            }
+            if ('right' in target.dataset) {
+                let { page } = getPagesParamFromLocalStorage();
+                const { countPages } = getPagesParamFromLocalStorage();
+                if (page < countPages) {
+                    page += 1;
+                    pageInput.value = page.toString();
+                    setNumberOfPageToLocalStorage(page);
+                    showCartListCode();
+                    toggleArrowStyle();
                 }
             }
         });
+        amountProductsOnPage?.addEventListener('change', () => {
+            setAmountProductsOnPageToLocalstorage(Number(amountProductsOnPage.value));
+            showCartListCode();
+            toggleArrowStyle();
+        });
+    }
+}
+interface PageParams {
+    countPages: number;
+    amountProductsOnPage: number;
+    amountProductsInCart: number;
+    page: number;
+}
+function getPagesParamFromLocalStorage(): PageParams {
+    const amountProductsOnPage = getSingleParamFromLocalStorage('cart-page');
+    const cartData = getCartFromLocalStorage();
+    const amountProductsInCart = cartData.length;
+    const countPages = Math.ceil(amountProductsInCart / amountProductsOnPage);
+    const page = getSingleParamFromLocalStorage('page-number');
+    return {
+        countPages: countPages,
+        amountProductsOnPage: amountProductsOnPage,
+        amountProductsInCart: amountProductsInCart,
+        page: page,
+    };
+}
+export function updatePageValue() {
+    const { page, countPages, amountProductsInCart } = getPagesParamFromLocalStorage();
+    const inputElement = <HTMLInputElement>document.querySelector('.pages__input');
+    inputElement.value = page.toString();
+    const allPages = <HTMLElement>document.querySelector('.all-pages-value');
+    allPages.textContent = countPages.toString();
+    const allProducts = <HTMLElement>document.querySelector('.all-products');
+    allProducts.textContent = amountProductsInCart.toString();
+}
+function toggleArrowStyle() {
+    const { countPages, page } = getPagesParamFromLocalStorage();
+    const navigateArrow: NodeListOf<Element> = document.querySelectorAll('.navigate');
+    if (page === 1 && countPages === 1) {
+        navigateArrow[0].classList.add('non-active');
+        navigateArrow[1].classList.add('non-active');
+    } else if (page === 1) {
+        navigateArrow[0].classList.add('non-active');
+        navigateArrow[1].classList.remove('non-active');
+    } else if (page === countPages) {
+        navigateArrow[0].classList.remove('non-active');
+        navigateArrow[1].classList.add('non-active');
+    } else {
+        navigateArrow.forEach((el) => el.classList.remove('non-active'));
     }
 }
