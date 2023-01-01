@@ -54,7 +54,7 @@
 
             &::before {
                 content: url("../../../assets/img/empty_square.svg");
-                
+                cursor: pointer;
             }
 
             &__name {
@@ -414,6 +414,11 @@
             }
                 
         }
+    }
+    .products-not-found {
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 }
 

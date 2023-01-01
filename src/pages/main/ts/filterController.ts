@@ -2,6 +2,7 @@ import data from '../../../assets/products.json';
 import { allPrices, allStocks } from './productsData';
 import renderProuductsCards from './renderProuductsCards';
 import sort from './sorting/sort';
+import img from '../../../assets/img/no-product.png';
 interface queryData {
     priceMax?: number;
     priceMin?: number;
@@ -16,15 +17,19 @@ interface queryData {
 function filterController() {
     const query: queryData = JSON.parse(localStorage.getItem('query') || '');
     const productsList = data.products;
+    let filterdProducts = productsList;
 
-    let filterdProducts = productsList.filter((product) => {
-        return (
-            query.category?.split(',').some((categoryName) => categoryName == product.category) ||
+    if (query.category) {
+        filterdProducts = productsList.filter((product) =>
+            query.category?.split(',').some((categoryName) => categoryName == product.category)
+        );
+    }
+
+    if (query.brand) {
+        filterdProducts = filterdProducts.filter((product) =>
             query.brand?.split(',').some((brandName) => brandName == product.brand)
         );
-    });
-
-    filterdProducts = filterdProducts.length > 0 ? filterdProducts : productsList;
+    }
 
     const sortedAllPrices = allPrices.sort((a, b) => a - b);
     const lowestProductPrice = sortedAllPrices[0];
@@ -47,7 +52,22 @@ function filterController() {
     });
 
     localStorage.setItem('productCards', JSON.stringify(filterdProductsByRange));
-    renderProuductsCards(filterdProductsByRange);
-    sort();
+    if (filterdProductsByRange.length != 0) {
+        renderProuductsCards(filterdProductsByRange);
+        sort();
+    } else {
+        renderNoProductNotification();
+    }
+
+}
+
+function renderNoProductNotification() {
+    const productsWrapper = document.querySelector('.cards-block') as HTMLElement;
+    const productWrapperInnerHtml = `
+        <div class='products-not-found'>
+            <img src=${img} alt='products not found'>
+        </div>
+    `;
+    productsWrapper.innerHTML = productWrapperInnerHtml;
 }
 export default filterController;
