@@ -9,7 +9,6 @@ import {
     setAmountProductsOnPageToLocalstorage,
     setNumberOfPageToLocalStorage,
 } from './setLocalStorageParams';
-import { getQueryParams } from './getLocalStorageParams';
 import { setQueryParams } from './setQueryParams';
 
 export function listenHeaderCart(): void {
@@ -134,17 +133,13 @@ function showCartListCode(): void {
     const cartLocalStorage = <CartData[]>getCartFromLocalStorage();
     const productsCartList = <HTMLElement>document.querySelector('.products__list');
     productsCartList.innerHTML = '';
-    const { countPages, amountProductsOnPage, amountProductsInCart, page } = getPagesParamFromLocalStorage();
+    const { countPages, amountProductsOnPage, page } = getPagesParamFromLocalStorage();
 
     let start = 0;
     let finish = 0;
-    // if (amountProductsOnPage === cartLocalStorage.length) {
-    //     finish = cartLocalStorage.length;
-    // }
     let currentPage = page;
     if (page > countPages) {
         currentPage = countPages;
-        console.log('currentPage', currentPage);
         setNumberOfPageToLocalStorage(currentPage);
         updatePageValue();
     }
@@ -237,7 +232,6 @@ function showCartListCode(): void {
 }
 
 function listenCartBlock(): void {
-    const cartProductsItems: NodeListOf<HTMLElement> = document.querySelectorAll('.product');
     const headerCartAmount = <HTMLElement>document.querySelector('.cart__amount');
     const cartBlock = <HTMLElement>document.querySelector('.cart-block');
     const cartData: CartData[] = getCartFromLocalStorage();
@@ -293,7 +287,6 @@ function listenCartBlock(): void {
                 if (page > 1) {
                     page -= 1;
                     pageInput.value = page.toString();
-                    console.log('pageInput.value', pageInput.value);
                     setNumberOfPageToLocalStorage(page);
                     showCartListCode();
                     toggleArrowStyle();
@@ -305,7 +298,6 @@ function listenCartBlock(): void {
                 if (page < countPages) {
                     page += 1;
                     pageInput.value = page.toString();
-                    console.log('pageInput.value', pageInput.value);
                     setNumberOfPageToLocalStorage(page);
                     showCartListCode();
                     toggleArrowStyle();
@@ -314,15 +306,11 @@ function listenCartBlock(): void {
         });
         amountProductsOnPage?.addEventListener('change', () => {
             setAmountProductsOnPageToLocalstorage(Number(amountProductsOnPage.value));
-            const pageParams: PageParams = getPagesParamFromLocalStorage();
             showCartListCode();
             toggleArrowStyle();
         });
     }
 }
-// 1) Get params from LS: countPages, amountProductsOnPage
-// 2) Set count products to input.value
-// 3) count pages according input.value
 interface PageParams {
     countPages: number;
     amountProductsOnPage: number;
@@ -350,21 +338,17 @@ export function updatePageValue() {
     allPages.textContent = countPages.toString();
     const allProducts = <HTMLElement>document.querySelector('.all-products');
     allProducts.textContent = amountProductsInCart.toString();
-    console.log('inputElement.value', inputElement.value);
 }
 function toggleArrowStyle() {
     const { countPages, page } = getPagesParamFromLocalStorage();
     const navigateArrow: NodeListOf<Element> = document.querySelectorAll('.navigate');
-    console.log('navigateArrow', navigateArrow);
     if (page === 1 && countPages === 1) {
         navigateArrow[0].classList.add('non-active');
         navigateArrow[1].classList.add('non-active');
     } else if (page === 1) {
-        console.log('non-active');
         navigateArrow[0].classList.add('non-active');
         navigateArrow[1].classList.remove('non-active');
     } else if (page === countPages) {
-        console.log('non-active');
         navigateArrow[0].classList.remove('non-active');
         navigateArrow[1].classList.add('non-active');
     } else {
