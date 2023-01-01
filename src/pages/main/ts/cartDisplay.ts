@@ -9,7 +9,6 @@ import {
     setAmountProductsOnPageToLocalstorage,
     setNumberOfPageToLocalStorage,
 } from './setLocalStorageParams';
-import { getQueryParams } from './getLocalStorageParams';
 import { setQueryParams } from './setQueryParams';
 
 export function listenHeaderCart(): void {
@@ -134,13 +133,10 @@ function showCartListCode(): void {
     const cartLocalStorage = <CartData[]>getCartFromLocalStorage();
     const productsCartList = <HTMLElement>document.querySelector('.products__list');
     productsCartList.innerHTML = '';
-    const { countPages, amountProductsOnPage, amountProductsInCart, page } = getPagesParamFromLocalStorage();
+    const { countPages, amountProductsOnPage, page } = getPagesParamFromLocalStorage();
 
     let start = 0;
     let finish = 0;
-    // if (amountProductsOnPage === cartLocalStorage.length) {
-    //     finish = cartLocalStorage.length;
-    // }
     let currentPage = page;
     if (page > countPages) {
         currentPage = countPages;
@@ -236,7 +232,6 @@ function showCartListCode(): void {
 }
 
 function listenCartBlock(): void {
-    const cartProductsItems: NodeListOf<HTMLElement> = document.querySelectorAll('.product');
     const headerCartAmount = <HTMLElement>document.querySelector('.cart__amount');
     const cartBlock = <HTMLElement>document.querySelector('.cart-block');
     const cartData: CartData[] = getCartFromLocalStorage();
@@ -311,15 +306,11 @@ function listenCartBlock(): void {
         });
         amountProductsOnPage?.addEventListener('change', () => {
             setAmountProductsOnPageToLocalstorage(Number(amountProductsOnPage.value));
-            const pageParams: PageParams = getPagesParamFromLocalStorage();
             showCartListCode();
             toggleArrowStyle();
         });
     }
 }
-// 1) Get params from LS: countPages, amountProductsOnPage
-// 2) Set count products to input.value
-// 3) count pages according input.value
 interface PageParams {
     countPages: number;
     amountProductsOnPage: number;
