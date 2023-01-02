@@ -15,6 +15,7 @@ import { headerImplement } from './headerImplement';
 import sorting from './sorting';
 import search from './search';
 import indicationSelectedProducts from './indicationSelectedProducts';
+import productPage from './productPage';
 
 headerImplement();
 const productsList = data.products;
@@ -30,3 +31,4 @@ listenSwitchingMode();
 sorting();
 search();
 indicationSelectedProducts();
+productPage();
