@@ -5,32 +5,34 @@ import quantityCategory from './quantityCategory';
 import renderCategoryFilter from './renderCategotyFilter';
 
 function categoryFilter() {
-    renderCategoryFilter();
-    filterController();
-    checkedCategorySwitcher();
-    quantityCategory();
+    if (document.querySelector('.cards-block')) {
+        renderCategoryFilter();
+        filterController();
+        checkedCategorySwitcher();
+        quantityCategory();
 
-    const categoryFilterElement = document.querySelector(
-        '.product-categories.filter-list.checked-block'
-    ) as HTMLElement;
-    categoryFilterElement.addEventListener('click', (event) => {
-        const target = event.target as HTMLElement;
-        const categoryName = target.firstElementChild?.textContent || '';
-        if (target.classList.contains('filter-item')) {
-            setQueryParams('category', categoryName, true);
+        const categoryFilterElement = document.querySelector(
+            '.product-categories.filter-list.checked-block'
+        ) as HTMLElement;
+        categoryFilterElement.addEventListener('click', (event) => {
+            const target = event.target as HTMLElement;
+            const categoryName = target.firstElementChild?.textContent || '';
+            if (target.classList.contains('filter-item')) {
+                setQueryParams('category', categoryName, true);
+                filterController();
+                checkedCategorySwitcher();
+            }
+        });
+        window.addEventListener('popstate', () => {
+            checkedCategorySwitcher();
+            filterController();
+        });
+        const resetBtn = document.querySelector('.reset-filters') as HTMLElement;
+        resetBtn.addEventListener('click', () => {
             filterController();
             checkedCategorySwitcher();
-        }
-    });
-    window.addEventListener('popstate', () => {
-        checkedCategorySwitcher();
-        filterController();
-    });
-    const resetBtn = document.querySelector('.reset-filters') as HTMLElement;
-    resetBtn.addEventListener('click', () => {
-        filterController();
-        checkedCategorySwitcher();
-    });
+        });
+    }
 }
 
 export default categoryFilter;
