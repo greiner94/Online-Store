@@ -49,10 +49,12 @@ function displayCart() {
 }
 
 function hideMainPage(): void {
-    const productsSection = <HTMLElement>document.querySelector('.product-section');
-    const sidebar = <HTMLElement>document.querySelector('.sidebar');
-    productsSection.classList.add('none');
-    sidebar.classList.add('none');
+    if (document.querySelector('.sidebar')) {
+        const productsSection = <HTMLElement>document.querySelector('.product-section');
+        const sidebar = <HTMLElement>document.querySelector('.sidebar');
+        productsSection.classList.add('none');
+        sidebar.classList.add('none');
+    }
 }
 
 function showCartHead(element: HTMLElement): void {
