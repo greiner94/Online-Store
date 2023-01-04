@@ -310,6 +310,7 @@
                 color: #221f1f;
                 text-decoration: none;
                 outline:1px solid #dcdcdc;
+                transition: transform 0.1s;
                                                 
                 &__photo {
                     object-fit: cover;
@@ -361,7 +362,11 @@
                     grid-row: 4;
                 }
                 
-
+                &:hover {
+                    background: #fff;
+                    transform: scale(1.01);
+                    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
+                }
             }
         } 
         
