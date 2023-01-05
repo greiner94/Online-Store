@@ -10,6 +10,7 @@ import {
     setNumberOfPageToLocalStorage,
 } from './setLocalStorageParams';
 import { setQueryParams } from './setQueryParams';
+import promocode from './promocode';
 
 export function listenHeaderCart(): void {
     const headerCartElement = document.querySelector('.cart');
@@ -46,6 +47,7 @@ function displayCart() {
         listenCartBlock();
     }
     toggleArrowStyle();
+    promocode();
 }
 
 function hideMainPage(): void {
