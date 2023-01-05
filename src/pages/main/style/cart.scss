@@ -184,6 +184,12 @@
     justify-content: space-between;
   }
 
+  &__total-amount {
+    &_remove {
+      text-decoration: line-through;
+    }
+  }
+
   &__total-title {
     font-size: 24px;
   }
@@ -195,12 +201,49 @@
     max-width: 218px;
     height: 38px;
     padding: 0 40px;
+    text-align: center;
   }
 
   &__promo {
     margin-top: 5px;
     color: #D2D2D2;
     display: flex;
+    &__msg {
+      color:#25A53C;
+    }
+    &__btn {
+      margin-top: 5px;
+      color: #fff;
+      padding: 4px 15px;
+      background: #25a53c;
+      border-radius: 4px;
+      transition: 0.2s all;
+      &:hover {
+        background: #30d14e;
+      }
+    }
+  }
+
+  .applied-codes {
+    border: 1px solid #D2D2D2;
+    text-align: center;
+    padding: 10px 1px;
+    border-radius: 4px;
+    margin-top: 50px;
+  }
+
+  h3 {
+    margin-bottom: 5px;
+    font-size: 20px;
+  }
+
+  .applied-promo {
+    padding: 10px;
+
+    span {
+      color: #e43a3a;
+      cursor: pointer;
+    }
   }
 
   &__btn {
