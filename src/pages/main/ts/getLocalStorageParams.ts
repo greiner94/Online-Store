@@ -16,18 +16,9 @@ export function getCartFromLocalStorage(): CartData[] {
     return JSON.parse(localStorage.getItem(localPropCart) || '[]');
 }
 
-// export function getCartAmountFromLocalStorage(): number {
-//     const localPropCart = 'all-amount';
-//     return JSON.parse(localStorage.getItem(localPropCart) || '0');
-// }
-
 export function getTotalCartSum(): number {
-    const cartData = getCartFromLocalStorage();
-    let totalSum = 0;
-    cartData.forEach(({ amount, price }) => {
-        totalSum += amount * price;
-    });
-    return totalSum;
+    const cartData: CartData[] = getCartFromLocalStorage();
+    return cartData.reduce((acc, { amount, price }) => acc + amount * price, 0);
 }
 
 export function getSingleParamFromLocalStorage(localProp: string): number {
