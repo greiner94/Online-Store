@@ -8,10 +8,11 @@ import {
     setNumberOfPageToLocalStorage,
     setCartAllAmount,
 } from './setLocalStorageParams';
-import { setQueryParams } from './setQueryParams';
-import promocode from './promocode';
+import { deleteQueryProductParam, setQueryParams } from './setQueryParams';
+import { promocode, checkPromo } from './promocode';
 import modal from './modal';
 import redirectToMain from './redirectToMain';
+import { renderMainPage } from './main';
 
 export function listenHeaderCart(): void {
     const headerCartElement = document.querySelector('.cart');
@@ -68,23 +69,18 @@ function displayBreadcrumbsCart(element: HTMLElement): void {
     breadcrumbsFragment.append(navBreadcrumbs);
     element.append(breadcrumbsFragment);
 }
-// function showMainPage(): void {
-//     console.log('click btn');
-//     const homeButton = <HTMLElement>document.querySelector('.home-btn');
-//     homeButton.removeEventListener('click', showMainPage);
-//     const main = <HTMLElement>document.querySelector('.main');
-//     const productsSection = <HTMLElement>document.querySelector('.product-section');
-//     const sidebar = <HTMLElement>document.querySelector('.sidebar');
-//     const breadcrumbs = <HTMLElement>document.querySelector('.breadcrumbs');
-//     const cartHead = <HTMLElement>document.querySelector('.products__head');
-//     const cart = <HTMLElement>document.querySelector('.product-cart__wrapper');
-//     main.classList.remove('cart-block');
-//     productsSection.classList.remove('none');
-//     sidebar.classList.remove('none');
-//     breadcrumbs.remove();
-//     cartHead.remove();
-//     cart.remove();
-// }
+
+function showMainPage(): void {
+    console.log('click btn');
+    const homeButton = <HTMLElement>document.querySelector('.home-btn');
+    const promoInput = <HTMLInputElement>document.querySelector('.summary__input');
+    promoInput?.removeEventListener('input', checkPromo);
+    homeButton.removeEventListener('click', showMainPage);
+    const main = <HTMLElement>document.querySelector('.main');
+    main.remove();
+    deleteQueryProductParam();
+    renderMainPage();
+}
 
 function showCartHead(element: HTMLElement): void {
     const { countPages, amountProductsOnPage, amountProductsInCart } = getPagesParamFromLocalStorage();
@@ -389,7 +385,7 @@ function listenCartBlock(): void {
 }
 function listenEmptyCart() {
     const homeButton = <HTMLElement>document.querySelector('.home-btn');
-    //homeButton.addEventListener('click', showMainPage);
+    homeButton.addEventListener('click', showMainPage);
 }
 function refreshPageData(page: number) {
     setNumberOfPageToLocalStorage(page);

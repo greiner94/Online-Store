@@ -16,6 +16,7 @@ import sorting from './sorting';
 import search from './search';
 import indicationSelectedProducts from './indicationSelectedProducts';
 import productPage from './productPage';
+import { renderMainPage } from './main';
 import redirectToMain from './redirectToMain';
 
 window.addEventListener('popstate', async () => {
@@ -36,20 +37,21 @@ redirectToMain('.footer__title a');
 redirectToMain('.shop-name');
 
 export function mainPage() {
-    headerImplement();
-    const productsList = data.products;
-    renderProuductsCards(productsList);
-    queryReset();
-    querySave();
-    windowOnload();
-    categoryFilter();
-    brandFilter();
-    priceFilter();
-    stockFilter();
-    listenSwitchingMode();
-    sorting();
-    search();
-    indicationSelectedProducts();
-    productPage();
+    renderMainPage();
+headerImplement();
+    // const productsList = data.products;
+    // renderProuductsCards(productsList);
+    // queryReset();
+    // querySave();
+    // windowOnload();
+    // categoryFilter();
+    // brandFilter();
+    //priceFilter();
+    //stockFilter();
+    // listenSwitchingMode();
+    // sorting();
+    // search();
+    // indicationSelectedProducts();
+    //productPage();
 }
 mainPage();

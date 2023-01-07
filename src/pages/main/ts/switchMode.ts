@@ -1,12 +1,12 @@
 import { setQueryParams } from './setQueryParams';
-const modeCards = <HTMLElement>document.querySelector('.view-mode__cards');
-const modeList = <HTMLElement>document.querySelector('.view-mode__list');
-const productBlock = <HTMLElement>document.querySelector('.cards-block');
 /**
  * @param data  data has 2 type: event from addEventListener and string ('cards' or 'list') from
  * localStorage
  */
 export function switchMode<T>(data: T): void {
+    const modeCards = <HTMLElement>document.querySelector('.view-mode__cards');
+    const modeList = <HTMLElement>document.querySelector('.view-mode__list');
+    const productBlock = <HTMLElement>document.querySelector('.cards-block');
     const target = <HTMLElement>(<Event>data).target || null;
     if (target?.className === 'view-mode__cards' || data === 'cards') {
         modeCards.classList.add('active');
