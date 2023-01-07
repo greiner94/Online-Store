@@ -1,5 +1,4 @@
 import '../style/cart.scss';
-import { displayBreadcrumbsCart } from './breadcrumbsDisplay';
 import { getSingleParamFromLocalStorage, getCartFromLocalStorage, getTotalCartSum } from './getLocalStorageParams';
 import data from '../../../assets/products.json';
 import { CartData, PageParams } from './type';
@@ -19,13 +18,15 @@ export function listenHeaderCart(): void {
 
 function displayCart() {
     const headerCartIcon = document.querySelector('.cart');
-    headerCartIcon?.removeEventListener('click', displayCart);
-    hideMainPage();
-    displayBreadcrumbsCart();
     const main = <HTMLElement>document.querySelector('.main');
+    headerCartIcon?.removeEventListener('click', displayCart);
+    //hideMainPage();
     const cartLocalStorage: CartData[] = getCartFromLocalStorage();
-    main.classList.add('cart-block');
     const cartFragment = <DocumentFragment>document.createDocumentFragment();
+    const newMain = <HTMLElement>document.createElement('main');
+    newMain.className = 'main cart-block';
+    displayBreadcrumbsCart(newMain);
+    //main.classList.add('cart-block');
     const cartHead = document.createElement('div');
     cartHead.classList.add('products__head');
     showCartHead(cartHead);
@@ -33,7 +34,9 @@ function displayCart() {
     wrapper.classList.add('product-cart__wrapper');
     cartFragment.append(cartHead, wrapper);
     if (cartLocalStorage.length === 0) {
-        main.appendChild(cartFragment);
+        main.after(newMain);
+        main.remove();
+        newMain.appendChild(cartFragment);
         showEmptyCart();
     } else {
         const summaryBlock = document.createElement('aside');
@@ -42,22 +45,29 @@ function displayCart() {
         const productsCartList = document.createElement('div');
         productsCartList.classList.add('products__list');
         wrapper.append(productsCartList, summaryBlock);
-        main.appendChild(cartFragment);
+        main.after(newMain);
+        main.remove();
+        newMain.appendChild(cartFragment);
         showCartListCode();
         listenCartBlock();
     }
     toggleArrowStyle();
     promocode();
 }
-
-function hideMainPage(): void {
-    if (document.querySelector('.sidebar')) {
-        const productsSection = <HTMLElement>document.querySelector('.product-section');
-        const sidebar = <HTMLElement>document.querySelector('.sidebar');
-        productsSection.classList.add('none');
-        sidebar.classList.add('none');
-    }
+function displayBreadcrumbsCart(element: HTMLElement): void {
+    const breadcrumbsFragment: DocumentFragment = document.createDocumentFragment();
+    const navBreadcrumbs: HTMLElement = document.createElement('nav');
+    navBreadcrumbs.classList.add('breadcrumbs');
+    navBreadcrumbs.innerHTML = ` <a href="/" class="breadcrumbs__home">
+                                    <img src="../../../assets/home_icon.svg" alt="home icon">
+                                </a>
+                                <a href="#" class="breadcrumbs__item">
+                                    Cart
+                                </a>`;
+    breadcrumbsFragment.append(navBreadcrumbs);
+    element.append(breadcrumbsFragment);
 }
+
 // function showMainPage(): void {
 //     console.log('click btn');
 //     const homeButton = <HTMLElement>document.querySelector('.home-btn');
