@@ -22,11 +22,13 @@ function displayCart() {
     const headerCartIcon = document.querySelector('.cart');
     const main = <HTMLElement>document.querySelector('.main');
     headerCartIcon?.removeEventListener('click', displayCart);
+    //hideMainPage();
     const cartLocalStorage: CartData[] = getCartFromLocalStorage();
     const cartFragment = <DocumentFragment>document.createDocumentFragment();
     const newMain = <HTMLElement>document.createElement('main');
     newMain.className = 'main cart-block';
     displayBreadcrumbsCart(newMain);
+    //main.classList.add('cart-block');
     const cartHead = document.createElement('div');
     cartHead.classList.add('products__head');
     showCartHead(cartHead);
@@ -68,7 +70,6 @@ function displayBreadcrumbsCart(element: HTMLElement): void {
     breadcrumbsFragment.append(navBreadcrumbs);
     element.append(breadcrumbsFragment);
 }
-
 // function showMainPage(): void {
 //     console.log('click btn');
 //     const homeButton = <HTMLElement>document.querySelector('.home-btn');
