@@ -1,8 +1,15 @@
 @import '../../../assets/scss/global.scss';
 
+.all-wrapper {
+    display:flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .main{
     margin: 30px 35px 20px 25px;
     display: flex;
+    flex-grow: 1;
     
 
     .sidebar{

@@ -6,3 +6,9 @@ export interface CartData {
     amount: number;
     price: number;
 }
+export interface PageParams {
+    countPages: number;
+    amountProductsOnPage: number;
+    amountProductsInCart: number;
+    page: number;
+}
