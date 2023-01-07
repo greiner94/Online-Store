@@ -11,6 +11,7 @@ import {
 } from './setLocalStorageParams';
 import { setQueryParams } from './setQueryParams';
 import promocode from './promocode';
+import modal from './modal';
 
 export function listenHeaderCart(): void {
     const headerCartElement = document.querySelector('.cart');
@@ -48,6 +49,7 @@ function displayCart() {
     }
     toggleArrowStyle();
     promocode();
+    modal();
 }
 
 function hideMainPage(): void {

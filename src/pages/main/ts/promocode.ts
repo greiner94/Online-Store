@@ -4,6 +4,7 @@ interface PromoDiscount {
     discount: number;
 }
 function promocode() {
+    if (!document.querySelector('.summary__input')) return;
     const promoInput = document.querySelector('.summary__input') as HTMLInputElement;
     const promoCodes: PromoDiscount[] = [
         {
@@ -36,6 +37,15 @@ function promocode() {
         });
     });
     renderDiscounts();
+    chageTatalPrice();
+
+    const observer = new MutationObserver(chageTatalPrice);
+
+    observer.observe(document.querySelector('.cart-total__sum') as HTMLElement, {
+        childList: true,
+        subtree: true,
+        characterDataOldValue: true,
+    });
 }
 
 function activateDiscrount(promoCode: PromoDiscount, event: Event) {

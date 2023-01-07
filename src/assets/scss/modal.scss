@@ -60,9 +60,15 @@
             border-radius: 5px;
             padding: 15px;
             width: 100%;
-
+            position: relative;
             input {
                 padding: 0 10px;
+            }
+
+            .card-image {
+                position: absolute;
+                right: 21px;
+                top: 38px;
             }
 
             #card-number {
@@ -92,6 +98,20 @@
             height: 57px;
             color: #ffffff;
             font-size: 1.25rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+            &:hover {
+                background: #2fb748; 
+            }
+        }
+        
+        .form-error {
+            color: #e43a3a;
+        }
+        &_success {
+            font-size: 32px;
+            color: #25a53c;
+            border-radius: 5px;
         }
     }
 
