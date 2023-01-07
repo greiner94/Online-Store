@@ -30,16 +30,16 @@ function modal() {
             cardValidate();
             validValidate();
             cvvValidate();
+
+            if (!document.querySelector('.form-error')) {
+                showSuccessOrder();
+            }
         });
 
         phoneNumFormatEditor();
         cardFormEditor();
         validFormEditor();
         cvvFormEditor();
-
-        if (!document.querySelector('.form-error')) {
-            //  showSuccessOrder();
-        }
     }
 }
 
@@ -197,6 +197,26 @@ function cvvValidate() {
 function showError(elem: HTMLElement, position: InsertPosition = 'beforebegin') {
     const innerHtml = '<div class="form-error"> Field is not valid </div>';
     elem.insertAdjacentHTML(position, innerHtml);
+}
+
+function showSuccessOrder() {
+    const modal = document.querySelector('.modal') as HTMLElement;
+    const successMessage = document.createElement('form');
+    successMessage.classList.add('modal', 'modal_success');
+    successMessage.textContent = 'Thank you for youre order!';
+    modal.parentElement?.appendChild(successMessage);
+    modal.style.display = 'none';
+
+    setTimeout(() => {
+        document.querySelector('.modal_success')?.remove();
+        modal.style.display = 'flex';
+        const modalWrap = document.querySelector('.modal-wrap') as HTMLElement;
+        modalWrap.classList.add('none');
+        localStorage.setItem('cart', '[]');
+        localStorage.setItem('promo', '[]');
+        localStorage.setItem('all-amount', '0');
+        window.location.replace('./');
+    }, 3000);
 }
 
 export default modal;

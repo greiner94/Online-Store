@@ -108,6 +108,11 @@
         .form-error {
             color: #e43a3a;
         }
+        &_success {
+            font-size: 32px;
+            color: #25a53c;
+            border-radius: 5px;
+        }
     }
 
     
