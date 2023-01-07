@@ -3,8 +3,12 @@ interface PromoDiscount {
     description: string;
     discount: number;
 }
-function promocode() {
+export function promocode() {
     const promoInput = document.querySelector('.summary__input') as HTMLInputElement;
+    promoInput.addEventListener('input', checkPromo);
+    renderDiscounts();
+}
+export function checkPromo(event: Event) {
     const promoCodes: PromoDiscount[] = [
         {
             value: 'RS',
@@ -17,25 +21,21 @@ function promocode() {
             discount: 15,
         },
     ];
-
-    promoInput.addEventListener('input', (event: Event) => {
-        const target = event.target as HTMLInputElement;
-        document.querySelector('.summary__promo__msg')?.remove();
-        document.querySelector('.summary__promo__btn')?.remove();
-        promoCodes.forEach((promoCode) => {
-            if (target.value.toLowerCase() == promoCode.value.toLowerCase()) {
-                let messageHtml = `<span class="summary__promo__msg">${promoCode.description} - ${promoCode.discount}%</span>`;
-                if (!isPromoActivated(promoCode)) {
-                    messageHtml += `<button class="summary__promo__btn">Add</button>`;
-                }
-                target.insertAdjacentHTML('afterend', messageHtml);
-
-                const promoBtn = document.querySelector('.summary__promo__btn') as HTMLButtonElement;
-                promoBtn?.addEventListener('click', (event) => activateDiscrount(promoCode, event));
+    const target = event.target as HTMLInputElement;
+    document.querySelector('.summary__promo__msg')?.remove();
+    document.querySelector('.summary__promo__btn')?.remove();
+    promoCodes.forEach((promoCode) => {
+        if (target.value.toLowerCase() == promoCode.value.toLowerCase()) {
+            let messageHtml = `<span class="summary__promo__msg">${promoCode.description} - ${promoCode.discount}%</span>`;
+            if (!isPromoActivated(promoCode)) {
+                messageHtml += `<button class="summary__promo__btn">Add</button>`;
             }
-        });
+            target.insertAdjacentHTML('afterend', messageHtml);
+
+            const promoBtn = document.querySelector('.summary__promo__btn') as HTMLButtonElement;
+            promoBtn?.addEventListener('click', (event) => activateDiscrount(promoCode, event));
+        }
     });
-    renderDiscounts();
 }
 
 function activateDiscrount(promoCode: PromoDiscount, event: Event) {
@@ -117,5 +117,3 @@ function chageTatalPrice() {
         document.querySelector('.summary__new-total-amount')?.remove();
     }
 }
-
-export default promocode;

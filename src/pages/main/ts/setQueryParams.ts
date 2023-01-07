@@ -47,3 +47,12 @@ export function addQueryParamsToLocalStorage(): void {
     const valueJson = JSON.stringify(queryParams);
     localStorage.setItem(localProp, valueJson);
 }
+
+export function deleteQueryProductParam() {
+    const url = new URL(window.location.href);
+    const searchParams = <URLSearchParams>url.searchParams;
+    const queryProductParam = 'product';
+    searchParams.delete(queryProductParam);
+    window.history.pushState({}, '', url);
+    addQueryParamsToLocalStorage();
+}

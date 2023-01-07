@@ -46,7 +46,6 @@ function watchByCards() {
             characterDataOldValue: true,
         });
     }
-
 }
 
 export default watchByCards;
