@@ -52,14 +52,26 @@ function renderProductPage() {
           <div class="visual__images">
             <div class="visual__mini">
               <div class="visual__mini-img">
-                  <img src="${images[0]}" alt="mini product image">
+                  <img src="${thumbnail}" alt="mini product image">
               </div>
-              <div class="visual__mini-img">
-                <img src="${images[1]}" alt="mini product image">
-              </div>
-              <div class="visual__mini-img">
-                <img src="${images[2]}" alt="mini product image">
-              </div>
+              ${
+                  images[0]
+                      ? `
+                        <div class="visual__mini-img">
+                          <img src="${images[0]}" alt="mini product image">
+                        </div>
+                        `
+                      : ''
+              }
+              ${
+                  images[1]
+                      ? `
+                        <div class="visual__mini-img">
+                          <img src="${images[1]}" alt="mini product image">
+                        </div>
+                        `
+                      : ''
+              }
             </div>
             <div class="visual__big-img">
               <img src="${thumbnail}" alt="big product image">
