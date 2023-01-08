@@ -3,6 +3,7 @@ import masterCard from '../../../assets/img/card-mastercard.png';
 import express from '../../../assets/img/card-american-express.png';
 
 export function modal() {
+    renderModalPage();
     if (document.querySelector('.summary__btn')) {
         const openModalBtn = document.querySelector('.summary__btn');
         const modalWrap = document.querySelector('.modal-wrap');
@@ -217,4 +218,37 @@ function showSuccessOrder() {
         localStorage.setItem('all-amount', '0');
         window.location.replace('./');
     }, 3000);
+}
+
+function renderModalPage() {
+    const modal = document.createElement('div');
+    modal.classList.add('modal-wrap', 'none');
+    modal.innerHTML = `
+    <div class="blackout"></div>
+    <form class="modal">
+      <h2>Personal details</h2>
+      <input type="text" name="first-name" id="person-name" placeholder="Name">
+      <input type="tel" name="phone-number" id="person-number" placeholder="Phone number">
+      <input type="text" name="delivery-address" id="delivery-address" placeholder="Delivery address">
+      <input type="text" name="email" id="email" placeholder="E-mail">
+      <h3>Credit cards details</h3>
+      <div>
+        <div class="credit-card-wrap">
+          <input type="text" name="card-number" id="card-number" placeholder="Card number">
+          <div class="valid-line">
+            <div class="valid-wrap">
+              <label for="valid">Valid:</label>
+              <input type="text" name="valid" id="valid" placeholder="Valid Thru">
+            </div>
+            <div class="cvv-wrap">
+              <label for="cvv" class="label-cvv">CVV:</label>
+              <input type="number" name="cvv" id="cvv" placeholder="Code">
+            </div>                     
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="modal__submit">Confirm</button>
+    </form>
+    `;
+    document.querySelector('.all-wrapper')?.insertAdjacentElement('afterbegin', modal);
 }
