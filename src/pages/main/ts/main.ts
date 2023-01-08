@@ -1,36 +1,7 @@
 import '../style/style.scss';
-import renderProuductsCards from './renderProuductsCards';
-import data from '../../../assets/products.json';
-import { queryReset, querySave } from './queryResetSave';
-import { changePageWithQueryParams } from './windowOnload';
-import categoryFilter from './categoryFilter';
-import brandFilter from './brandFilter';
-import priceFilter from './priceFilter';
-import stockFilter from './stockFilter';
-import search from './search';
-import { listenSwitchingMode } from './switchMode';
-import sorting from './sorting';
-import indicationSelectedProducts from './indicationSelectedProducts';
-import { listenHeaderCart } from './cartDisplay';
-import productPage from './productPage';
 
 export function renderMainPage() {
-    const productsList = data.products;
     renderStartPage();
-    categoryFilter();
-    brandFilter();
-    priceFilter();
-    stockFilter();
-    renderProuductsCards(productsList);
-    queryReset();
-    querySave();
-    changePageWithQueryParams();
-    sorting();
-    search();
-    indicationSelectedProducts();
-    listenSwitchingMode();
-    listenHeaderCart();
-    productPage();
 }
 function renderStartPage(): void {
     const headerEl = <HTMLElement>document.querySelector('.header');

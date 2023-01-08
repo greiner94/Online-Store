@@ -8,11 +8,10 @@ import {
     setNumberOfPageToLocalStorage,
     setCartAllAmount,
 } from './setLocalStorageParams';
-import { deleteQueryProductParam, setQueryParams } from './setQueryParams';
-import { promocode, checkPromo } from './promocode';
+import { setQueryParams } from './setQueryParams';
+import { promocode } from './promocode';
 import { modal } from './modal';
 import redirectToMain from './redirectToMain';
-import { renderMainPage } from './main';
 
 export function listenHeaderCart(): void {
     const headerCartElement = document.querySelector('.cart');
@@ -72,18 +71,18 @@ function displayBreadcrumbsCart(element: HTMLElement): void {
     element.append(breadcrumbsFragment);
 }
 
-function showMainPage(): void {
-    const homeButton = <HTMLElement>document.querySelector('.home-btn');
-    const promoInput = <HTMLInputElement>document.querySelector('.summary__input');
-    const cartBlock = <HTMLElement>document.querySelector('.cart-block');
-    promoInput?.removeEventListener('input', checkPromo);
-    homeButton?.removeEventListener('click', showMainPage);
-    cartBlock?.removeEventListener('click', arrowChangeAmount);
-    const main = <HTMLElement>document.querySelector('.main');
-    main.remove();
-    deleteQueryProductParam();
-    renderMainPage();
-}
+// function showMainPage(): void {
+//     const homeButton = <HTMLElement>document.querySelector('.home-btn');
+//     const promoInput = <HTMLInputElement>document.querySelector('.summary__input');
+//     const cartBlock = <HTMLElement>document.querySelector('.cart-block');
+//     promoInput?.removeEventListener('input', checkPromo);
+//     homeButton?.removeEventListener('click', showMainPage);
+//     cartBlock?.removeEventListener('click', arrowChangeAmount);
+//     const main = <HTMLElement>document.querySelector('.main');
+//     main.remove();
+//     deleteQueryProductParam();
+//     mainPage();
+// }
 
 function showCartHead(element: HTMLElement): void {
     const { countPages, amountProductsOnPage, amountProductsInCart } = getPagesParamFromLocalStorage();
