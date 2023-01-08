@@ -24,12 +24,12 @@ window.addEventListener('popstate', async () => {
     const searchParams = <URLSearchParams>url.searchParams;
     if (!searchParams.get('product') && !searchParams.get('cart')) {
         const html = await fetch('./index.html').then((data) => data.text());
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const productPageElem = (document.querySelector('.product-page') ||
-            document.querySelector('.main')) as HTMLElement;
-        productPageElem.insertAdjacentElement('afterend', doc.querySelector('.main') as HTMLElement);
+        //const doc = new DOMParser().parseFromString(html, 'text/html');
+        const productPageElem = document.querySelector('.main') as HTMLElement;
+        // productPageElem.insertAdjacentElement('afterend', doc.querySelector('.main') as HTMLElement);
         productPageElem.remove();
-        mainPage();
+        //mainPage();
+        renderMainPage();
     }
 });
 
@@ -38,7 +38,7 @@ redirectToMain('.shop-name');
 
 export function mainPage() {
     renderMainPage();
-headerImplement();
+    headerImplement();
     // const productsList = data.products;
     // renderProuductsCards(productsList);
     // queryReset();

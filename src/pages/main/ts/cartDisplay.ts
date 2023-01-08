@@ -10,7 +10,7 @@ import {
 } from './setLocalStorageParams';
 import { deleteQueryProductParam, setQueryParams } from './setQueryParams';
 import { promocode, checkPromo } from './promocode';
-import modal from './modal';
+import { modal } from './modal';
 import redirectToMain from './redirectToMain';
 import { renderMainPage } from './main';
 
@@ -55,6 +55,8 @@ function displayCart() {
     toggleArrowStyle();
     promocode();
     modal();
+    redirectToMain('.breadcrumbs__home');
+    redirectToMain('.home-btn');
 }
 function displayBreadcrumbsCart(element: HTMLElement): void {
     const breadcrumbsFragment: DocumentFragment = document.createDocumentFragment();
@@ -159,7 +161,6 @@ export function showEmptyCart(): void {
     const quantityBlock = document.querySelector('.quantity');
     quantityBlock?.classList.add('none');
     listenEmptyCart();
-    redirectToMain('.home-btn');
 }
 
 function showCartListCode(): void {
@@ -266,7 +267,6 @@ function showCartListCode(): void {
 }
 
 function listenCartBlock(): void {
-    const homeButton = <HTMLButtonElement>document.querySelector('.home-btn');
     const cartBlock = <HTMLElement>document.querySelector('.cart-block');
     const amountProductsOnPage = <HTMLInputElement>document.querySelector('.quantity__input');
     const pageInput = <HTMLInputElement>document.querySelector('.pages__input');
