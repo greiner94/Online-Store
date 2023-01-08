@@ -46,7 +46,7 @@
 
   &__item {
     position: relative;
-    color: #3E77AA;
+    color: #221F1F;
     &::before {
       content: url(../../../assets/img/arrow.svg);
       position: absolute;
@@ -60,6 +60,8 @@
   &__home {
     display: flex;
     align-items: center;
+    cursor: pointer;
+    
     &:hover {
       filter: brightness(0.8);
     }
