@@ -231,6 +231,8 @@ function quickBuy() {
     const btn = document.querySelector('.btn') as HTMLButtonElement;
     const cart = document.querySelector('.cart') as HTMLElement;
     btn.addEventListener('click', () => {
+        const addToCartBtn = document.querySelector('.add-btn') as HTMLElement;
+        addToCartBtn.click();
         cart.click();
         const modalBtn = document.querySelector('.summary__btn') as HTMLButtonElement;
         modalBtn.click();
