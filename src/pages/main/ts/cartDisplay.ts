@@ -160,7 +160,7 @@ export function showEmptyCart(): void {
                             </div>`;
     const quantityBlock = document.querySelector('.quantity');
     quantityBlock?.classList.add('none');
-    listenEmptyCart();
+    //listenEmptyCart();
 }
 
 function showCartListCode(): void {
@@ -387,10 +387,10 @@ export function arrowChangeAmount(event: MouseEvent) {
         }
     }
 }
-function listenEmptyCart() {
-    const homeButton = <HTMLElement>document.querySelector('.home-btn');
-    homeButton.addEventListener('click', showMainPage);
-}
+// function listenEmptyCart() {
+//     const homeButton = <HTMLElement>document.querySelector('.home-btn');
+//     homeButton.addEventListener('click', showMainPage);
+// }
 function refreshPageData(page: number) {
     setNumberOfPageToLocalStorage(page);
     showCartListCode();
