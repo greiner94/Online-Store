@@ -68,11 +68,12 @@ function displayBreadcrumbsCart(element: HTMLElement): void {
 }
 
 function showMainPage(): void {
-    console.log('click btn');
     const homeButton = <HTMLElement>document.querySelector('.home-btn');
     const promoInput = <HTMLInputElement>document.querySelector('.summary__input');
+    const cartBlock = <HTMLElement>document.querySelector('.cart-block');
     promoInput?.removeEventListener('input', checkPromo);
-    homeButton.removeEventListener('click', showMainPage);
+    homeButton?.removeEventListener('click', showMainPage);
+    cartBlock?.removeEventListener('click', arrowChangeAmount);
     const main = <HTMLElement>document.querySelector('.main');
     main.remove();
     deleteQueryProductParam();
@@ -268,74 +269,7 @@ function listenCartBlock(): void {
     const cartData: CartData[] = getCartFromLocalStorage();
     const { countPages } = getPagesParamFromLocalStorage();
     if (cartData.length > 0) {
-        cartBlock.addEventListener('click', (event: MouseEvent) => {
-            const totalSum = <HTMLElement>document.querySelector('.summary__total-amount');
-            const headerTotalSum = <HTMLElement>document.querySelector('.cart-total__sum');
-            const target = <HTMLElement>event.target;
-            if (target.className === 'product__plus' || target.className === 'product__minus') {
-                const currentProduct = <HTMLElement>target.closest('.product__amount-toggler');
-                const currentInput = <HTMLInputElement>currentProduct.childNodes[3];
-                const currentId = Number(<string>currentProduct.dataset.id);
-                for (let i = 0; i < cartData.length; i++) {
-                    const { id } = cartData[i];
-                    let { amount } = cartData[i];
-                    if (id === currentId && 'minus' in target.dataset) {
-                        amount -= 1;
-                        cartData[i].amount = amount;
-                        currentInput.value = amount.toString();
-                        setCartDataToLocalStorage(cartData);
-                        setCartAllAmount();
-                        headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
-                        if (amount === 0) {
-                            const productElement = <HTMLElement>target.closest('.product');
-                            productElement.remove();
-                            showCartListCode();
-                            break;
-                        }
-                        const productPrices: NodeListOf<HTMLElement> = document.querySelectorAll('.product__price');
-                        const currentProductsPrice = Array.from(productPrices).find((el) => {
-                            return Number(el.dataset.id) === id;
-                        }) as HTMLElement;
-                        const price = Number(currentProductsPrice.dataset.price);
-                        currentProductsPrice.textContent = (amount * price).toString();
-                        break;
-                    } else if (id === currentId && 'plus' in target.dataset) {
-                        const { stock } = data.products[id - 1];
-                        amount += 1;
-                        amount = amount > stock ? stock : amount;
-                        cartData[i].amount = amount;
-                        currentInput.value = amount.toString();
-                        const productPrices: NodeListOf<HTMLElement> = document.querySelectorAll('.product__price');
-                        const currentProductsPrice = Array.from(productPrices).find((el) => {
-                            return Number(el.dataset.id) === id;
-                        }) as HTMLElement;
-                        const price = Number(currentProductsPrice.dataset.price);
-                        currentProductsPrice.textContent = (amount * price).toString();
-                        setCartDataToLocalStorage(cartData);
-                        setCartAllAmount();
-                        headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
-                        break;
-                    }
-                }
-            }
-            if ('left' in target.dataset) {
-                let { page } = getPagesParamFromLocalStorage();
-                if (page > 1) {
-                    page -= 1;
-                    pageInput.value = page.toString();
-                    refreshPageData(page);
-                }
-            }
-            if ('right' in target.dataset) {
-                let { page } = getPagesParamFromLocalStorage();
-                const { countPages } = getPagesParamFromLocalStorage();
-                if (page < countPages) {
-                    page += 1;
-                    pageInput.value = page.toString();
-                    refreshPageData(page);
-                }
-            }
-        });
+        cartBlock.addEventListener('click', arrowChangeAmount);
         amountProductsOnPage?.addEventListener('change', () => {
             const allAmount: number = getSingleParamFromLocalStorage('all-amount');
             let value = Number(amountProductsOnPage.value);
@@ -377,6 +311,76 @@ function listenCartBlock(): void {
                 showCartListCode();
             }
         });
+    }
+}
+export function arrowChangeAmount(event: MouseEvent) {
+    const cartData: CartData[] = getCartFromLocalStorage();
+    const totalSum = <HTMLElement>document.querySelector('.summary__total-amount');
+    const headerTotalSum = <HTMLElement>document.querySelector('.cart-total__sum');
+    const pageInput = <HTMLInputElement>document.querySelector('.pages__input');
+    const target = <HTMLElement>event.target;
+    if (target.className === 'product__plus' || target.className === 'product__minus') {
+        const currentProduct = <HTMLElement>target.closest('.product__amount-toggler');
+        const currentInput = <HTMLInputElement>currentProduct.childNodes[3];
+        const currentId = Number(<string>currentProduct.dataset.id);
+        for (let i = 0; i < cartData.length; i++) {
+            const { id } = cartData[i];
+            let { amount } = cartData[i];
+            if (id === currentId && 'minus' in target.dataset) {
+                amount -= 1;
+                cartData[i].amount = amount;
+                currentInput.value = amount.toString();
+                setCartDataToLocalStorage(cartData);
+                setCartAllAmount();
+                headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
+                if (amount === 0) {
+                    const productElement = <HTMLElement>target.closest('.product');
+                    productElement.remove();
+                    showCartListCode();
+                    break;
+                }
+                const productPrices: NodeListOf<HTMLElement> = document.querySelectorAll('.product__price');
+                const currentProductsPrice = Array.from(productPrices).find((el) => {
+                    return Number(el.dataset.id) === id;
+                }) as HTMLElement;
+                const price = Number(currentProductsPrice.dataset.price);
+                currentProductsPrice.textContent = (amount * price).toString();
+                break;
+            } else if (id === currentId && 'plus' in target.dataset) {
+                const { stock } = data.products[id - 1];
+                amount += 1;
+                amount = amount > stock ? stock : amount;
+                cartData[i].amount = amount;
+                currentInput.value = amount.toString();
+                const productPrices: NodeListOf<HTMLElement> = document.querySelectorAll('.product__price');
+                const currentProductsPrice = Array.from(productPrices).find((el) => {
+                    return Number(el.dataset.id) === id;
+                }) as HTMLElement;
+                const price = Number(currentProductsPrice.dataset.price);
+                currentProductsPrice.textContent = (amount * price).toString();
+                setCartDataToLocalStorage(cartData);
+                setCartAllAmount();
+                headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
+                break;
+            }
+        }
+    }
+    if ('left' in target.dataset) {
+        let { page } = getPagesParamFromLocalStorage();
+        if (page > 1) {
+            page -= 1;
+            pageInput.value = page.toString();
+            refreshPageData(page);
+        }
+    }
+    if ('right' in target.dataset) {
+        let { page } = getPagesParamFromLocalStorage();
+        const { countPages } = getPagesParamFromLocalStorage();
+        if (page < countPages) {
+            page += 1;
+            pageInput.value = page.toString();
+            refreshPageData(page);
+        }
     }
 }
 function listenEmptyCart() {
