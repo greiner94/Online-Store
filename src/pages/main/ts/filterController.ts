@@ -48,7 +48,12 @@ function filterController() {
                 (query.priceMax || hieghtProductPrice) >= product.price &&
                 (query.stockMin || lowestProductStock) <= product.stock &&
                 (query.stockMax || hieghtProductStock) >= product.stock &&
-                product.title?.toLowerCase().includes(searchInput.value.toLowerCase())
+                (product.title?.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+                    product.description?.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+                    product.stock?.toString().includes(searchInput.value) ||
+                    product.price?.toString().includes(searchInput.value) ||
+                    product.brand?.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+                    product.category?.toLowerCase().includes(searchInput.value.toLowerCase()))
             );
         });
 
