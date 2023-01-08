@@ -8,10 +8,11 @@ import {
     setNumberOfPageToLocalStorage,
     setCartAllAmount,
 } from './setLocalStorageParams';
-import { setQueryParams } from './setQueryParams';
-import promocode from './promocode';
-import modal from './modal';
+import { deleteQueryProductParam, setQueryParams } from './setQueryParams';
+import { promocode, checkPromo } from './promocode';
+import { modal } from './modal';
 import redirectToMain from './redirectToMain';
+import { renderMainPage } from './main';
 
 export function listenHeaderCart(): void {
     const headerCartElement = document.querySelector('.cart');
@@ -54,38 +55,35 @@ function displayCart() {
     toggleArrowStyle();
     promocode();
     modal();
+    redirectToMain('.breadcrumbs__home');
+    redirectToMain('.home-btn');
 }
 function displayBreadcrumbsCart(element: HTMLElement): void {
     const breadcrumbsFragment: DocumentFragment = document.createDocumentFragment();
     const navBreadcrumbs: HTMLElement = document.createElement('nav');
     navBreadcrumbs.classList.add('breadcrumbs');
-    navBreadcrumbs.innerHTML = ` <a href="/" class="breadcrumbs__home">
+    navBreadcrumbs.innerHTML = ` <span class="breadcrumbs__home">
                                     <img src="../../../assets/home_icon.svg" alt="home icon">
-                                </a>
-                                <a href="#" class="breadcrumbs__item">
+                                </span>
+                                <span class="breadcrumbs__item">
                                     Cart
-                                </a>`;
+                                </span>`;
     breadcrumbsFragment.append(navBreadcrumbs);
     element.append(breadcrumbsFragment);
 }
 
-// function showMainPage(): void {
-//     console.log('click btn');
-//     const homeButton = <HTMLElement>document.querySelector('.home-btn');
-//     homeButton.removeEventListener('click', showMainPage);
-//     const main = <HTMLElement>document.querySelector('.main');
-//     const productsSection = <HTMLElement>document.querySelector('.product-section');
-//     const sidebar = <HTMLElement>document.querySelector('.sidebar');
-//     const breadcrumbs = <HTMLElement>document.querySelector('.breadcrumbs');
-//     const cartHead = <HTMLElement>document.querySelector('.products__head');
-//     const cart = <HTMLElement>document.querySelector('.product-cart__wrapper');
-//     main.classList.remove('cart-block');
-//     productsSection.classList.remove('none');
-//     sidebar.classList.remove('none');
-//     breadcrumbs.remove();
-//     cartHead.remove();
-//     cart.remove();
-// }
+function showMainPage(): void {
+    const homeButton = <HTMLElement>document.querySelector('.home-btn');
+    const promoInput = <HTMLInputElement>document.querySelector('.summary__input');
+    const cartBlock = <HTMLElement>document.querySelector('.cart-block');
+    promoInput?.removeEventListener('input', checkPromo);
+    homeButton?.removeEventListener('click', showMainPage);
+    cartBlock?.removeEventListener('click', arrowChangeAmount);
+    const main = <HTMLElement>document.querySelector('.main');
+    main.remove();
+    deleteQueryProductParam();
+    renderMainPage();
+}
 
 function showCartHead(element: HTMLElement): void {
     const { countPages, amountProductsOnPage, amountProductsInCart } = getPagesParamFromLocalStorage();
@@ -162,8 +160,7 @@ export function showEmptyCart(): void {
                             </div>`;
     const quantityBlock = document.querySelector('.quantity');
     quantityBlock?.classList.add('none');
-    listenEmptyCart();
-    redirectToMain('.home-btn');
+    //listenEmptyCart();
 }
 
 function showCartListCode(): void {
@@ -270,81 +267,13 @@ function showCartListCode(): void {
 }
 
 function listenCartBlock(): void {
-    const homeButton = <HTMLButtonElement>document.querySelector('.home-btn');
     const cartBlock = <HTMLElement>document.querySelector('.cart-block');
     const amountProductsOnPage = <HTMLInputElement>document.querySelector('.quantity__input');
     const pageInput = <HTMLInputElement>document.querySelector('.pages__input');
     const cartData: CartData[] = getCartFromLocalStorage();
     const { countPages } = getPagesParamFromLocalStorage();
     if (cartData.length > 0) {
-        cartBlock.addEventListener('click', (event: MouseEvent) => {
-            const totalSum = <HTMLElement>document.querySelector('.summary__total-amount');
-            const headerTotalSum = <HTMLElement>document.querySelector('.cart-total__sum');
-            const target = <HTMLElement>event.target;
-            if (target.className === 'product__plus' || target.className === 'product__minus') {
-                const currentProduct = <HTMLElement>target.closest('.product__amount-toggler');
-                const currentInput = <HTMLInputElement>currentProduct.childNodes[3];
-                const currentId = Number(<string>currentProduct.dataset.id);
-                for (let i = 0; i < cartData.length; i++) {
-                    const { id } = cartData[i];
-                    let { amount } = cartData[i];
-                    if (id === currentId && 'minus' in target.dataset) {
-                        amount -= 1;
-                        cartData[i].amount = amount;
-                        currentInput.value = amount.toString();
-                        setCartDataToLocalStorage(cartData);
-                        setCartAllAmount();
-                        headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
-                        if (amount === 0) {
-                            const productElement = <HTMLElement>target.closest('.product');
-                            productElement.remove();
-                            showCartListCode();
-                            break;
-                        }
-                        const productPrices: NodeListOf<HTMLElement> = document.querySelectorAll('.product__price');
-                        const currentProductsPrice = Array.from(productPrices).find((el) => {
-                            return Number(el.dataset.id) === id;
-                        }) as HTMLElement;
-                        const price = Number(currentProductsPrice.dataset.price);
-                        currentProductsPrice.textContent = (amount * price).toString();
-                        break;
-                    } else if (id === currentId && 'plus' in target.dataset) {
-                        const { stock } = data.products[id - 1];
-                        amount += 1;
-                        amount = amount > stock ? stock : amount;
-                        cartData[i].amount = amount;
-                        currentInput.value = amount.toString();
-                        const productPrices: NodeListOf<HTMLElement> = document.querySelectorAll('.product__price');
-                        const currentProductsPrice = Array.from(productPrices).find((el) => {
-                            return Number(el.dataset.id) === id;
-                        }) as HTMLElement;
-                        const price = Number(currentProductsPrice.dataset.price);
-                        currentProductsPrice.textContent = (amount * price).toString();
-                        setCartDataToLocalStorage(cartData);
-                        setCartAllAmount();
-                        headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
-                        break;
-                    }
-                }
-            }
-            if ('left' in target.dataset) {
-                let { page } = getPagesParamFromLocalStorage();
-                if (page > 1) {
-                    page -= 1;
-                    pageInput.value = page.toString();
-                    refreshPageData(page);
-                }
-            }
-            if ('right' in target.dataset) {
-                let { page } = getPagesParamFromLocalStorage();
-                const { countPages } = getPagesParamFromLocalStorage();
-                if (page < countPages) {
-                    page += 1;
-                    pageInput.value = page.toString();
-                    refreshPageData(page);
-                }
-            }
-        });
+        cartBlock.addEventListener('click', arrowChangeAmount);
         amountProductsOnPage?.addEventListener('change', () => {
             const allAmount: number = getSingleParamFromLocalStorage('all-amount');
             let value = Number(amountProductsOnPage.value);
@@ -388,10 +317,80 @@ function listenCartBlock(): void {
         });
     }
 }
-function listenEmptyCart() {
-    const homeButton = <HTMLElement>document.querySelector('.home-btn');
-    //homeButton.addEventListener('click', showMainPage);
+export function arrowChangeAmount(event: MouseEvent) {
+    const cartData: CartData[] = getCartFromLocalStorage();
+    const totalSum = <HTMLElement>document.querySelector('.summary__total-amount');
+    const headerTotalSum = <HTMLElement>document.querySelector('.cart-total__sum');
+    const pageInput = <HTMLInputElement>document.querySelector('.pages__input');
+    const target = <HTMLElement>event.target;
+    if (target.className === 'product__plus' || target.className === 'product__minus') {
+        const currentProduct = <HTMLElement>target.closest('.product__amount-toggler');
+        const currentInput = <HTMLInputElement>currentProduct.childNodes[3];
+        const currentId = Number(<string>currentProduct.dataset.id);
+        for (let i = 0; i < cartData.length; i++) {
+            const { id } = cartData[i];
+            let { amount } = cartData[i];
+            if (id === currentId && 'minus' in target.dataset) {
+                amount -= 1;
+                cartData[i].amount = amount;
+                currentInput.value = amount.toString();
+                setCartDataToLocalStorage(cartData);
+                setCartAllAmount();
+                headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
+                if (amount === 0) {
+                    const productElement = <HTMLElement>target.closest('.product');
+                    productElement.remove();
+                    showCartListCode();
+                    break;
+                }
+                const productPrices: NodeListOf<HTMLElement> = document.querySelectorAll('.product__price');
+                const currentProductsPrice = Array.from(productPrices).find((el) => {
+                    return Number(el.dataset.id) === id;
+                }) as HTMLElement;
+                const price = Number(currentProductsPrice.dataset.price);
+                currentProductsPrice.textContent = (amount * price).toString();
+                break;
+            } else if (id === currentId && 'plus' in target.dataset) {
+                const { stock } = data.products[id - 1];
+                amount += 1;
+                amount = amount > stock ? stock : amount;
+                cartData[i].amount = amount;
+                currentInput.value = amount.toString();
+                const productPrices: NodeListOf<HTMLElement> = document.querySelectorAll('.product__price');
+                const currentProductsPrice = Array.from(productPrices).find((el) => {
+                    return Number(el.dataset.id) === id;
+                }) as HTMLElement;
+                const price = Number(currentProductsPrice.dataset.price);
+                currentProductsPrice.textContent = (amount * price).toString();
+                setCartDataToLocalStorage(cartData);
+                setCartAllAmount();
+                headerTotalSum.textContent = totalSum.textContent = getTotalCartSum().toString();
+                break;
+            }
+        }
+    }
+    if ('left' in target.dataset) {
+        let { page } = getPagesParamFromLocalStorage();
+        if (page > 1) {
+            page -= 1;
+            pageInput.value = page.toString();
+            refreshPageData(page);
+        }
+    }
+    if ('right' in target.dataset) {
+        let { page } = getPagesParamFromLocalStorage();
+        const { countPages } = getPagesParamFromLocalStorage();
+        if (page < countPages) {
+            page += 1;
+            pageInput.value = page.toString();
+            refreshPageData(page);
+        }
+    }
 }
+// function listenEmptyCart() {
+//     const homeButton = <HTMLElement>document.querySelector('.home-btn');
+//     homeButton.addEventListener('click', showMainPage);
+// }
 function refreshPageData(page: number) {
     setNumberOfPageToLocalStorage(page);
     showCartListCode();

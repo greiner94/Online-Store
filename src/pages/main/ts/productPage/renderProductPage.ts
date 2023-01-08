@@ -31,18 +31,18 @@ function renderProductPage() {
       <main class="main product-page">
 
       <nav class="breadcrumbs">
-        <a href="/" class="breadcrumbs__home">
+        <span class="breadcrumbs__home">
           <img src="${homeIcon}" alt="home icon">
-        </a>
-        <a href="#" class="breadcrumbs__item">
+        </span>
+        <span class="breadcrumbs__item">
           ${category}
-        </a>
-        <a href="#" class="breadcrumbs__item">
+        </span>
+        <span class="breadcrumbs__item">
           ${brand}
-        </a>
-        <a href="#" class="breadcrumbs__item">
+        </span>
+        <span class="breadcrumbs__item">
           ${title}
-        </a>
+        </span>
       </nav>
 
       <h1 class="product-page__title">

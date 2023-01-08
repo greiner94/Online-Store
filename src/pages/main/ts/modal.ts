@@ -2,7 +2,7 @@ import visa from '../../../assets/img/card-visa.png';
 import masterCard from '../../../assets/img/card-mastercard.png';
 import express from '../../../assets/img/card-american-express.png';
 
-function modal() {
+export function modal() {
     if (document.querySelector('.summary__btn')) {
         const openModalBtn = document.querySelector('.summary__btn');
         const modalWrap = document.querySelector('.modal-wrap');
@@ -17,24 +17,7 @@ function modal() {
         });
 
         const form = document.querySelector('.modal') as HTMLFormElement;
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const errorMessages = document.querySelectorAll('.form-error') as NodeListOf<HTMLElement>;
-            errorMessages.forEach((message) => message.remove());
-
-            nameValidate();
-            phoneValidate();
-            deliveryValidate();
-            emailValidate();
-            cardValidate();
-            validValidate();
-            cvvValidate();
-
-            if (!document.querySelector('.form-error')) {
-                showSuccessOrder();
-            }
-        });
+        form.addEventListener('submit', formValidation);
 
         phoneNumFormatEditor();
         cardFormEditor();
@@ -42,7 +25,24 @@ function modal() {
         cvvFormEditor();
     }
 }
+export function formValidation(event: SubmitEvent) {
+    event.preventDefault();
 
+    const errorMessages = document.querySelectorAll('.form-error') as NodeListOf<HTMLElement>;
+    errorMessages.forEach((message) => message.remove());
+
+    nameValidate();
+    phoneValidate();
+    deliveryValidate();
+    emailValidate();
+    cardValidate();
+    validValidate();
+    cvvValidate();
+
+    if (!document.querySelector('.form-error')) {
+        showSuccessOrder();
+    }
+}
 function nameValidate() {
     const nameInput = document.querySelector('#person-name') as HTMLInputElement;
     const inputValue = nameInput.value;
@@ -218,5 +218,3 @@ function showSuccessOrder() {
         window.location.replace('./');
     }, 3000);
 }
-
-export default modal;

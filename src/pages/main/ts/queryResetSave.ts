@@ -1,4 +1,8 @@
 import { QueryParams } from './type';
+import checkedBrandSwitcher from './brandFilter/checkedBrandSwitcher';
+import filterController from './filterController';
+import checkedCategorySwitcher from './categoryFilter/checkedCategorySwitcher';
+
 export function queryReset(): void {
     const localProp = 'query';
     const resetBtn = <Element>document.querySelector('.reset-filters');
@@ -18,6 +22,9 @@ export function queryReset(): void {
         const clearUrl = new URL(window.location.origin);
         clearUrl.searchParams.set('mode', selectedMode);
         window.history.pushState({}, '', clearUrl);
+        filterController();
+        checkedBrandSwitcher();
+        checkedCategorySwitcher();
     });
 }
 export function querySave(): void {
