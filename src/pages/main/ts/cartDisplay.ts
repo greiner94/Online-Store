@@ -57,12 +57,12 @@ function displayBreadcrumbsCart(element: HTMLElement): void {
     const breadcrumbsFragment: DocumentFragment = document.createDocumentFragment();
     const navBreadcrumbs: HTMLElement = document.createElement('nav');
     navBreadcrumbs.classList.add('breadcrumbs');
-    navBreadcrumbs.innerHTML = ` <a href="/" class="breadcrumbs__home">
+    navBreadcrumbs.innerHTML = ` <span class="breadcrumbs__home">
                                     <img src="../../../assets/home_icon.svg" alt="home icon">
-                                </a>
-                                <a href="#" class="breadcrumbs__item">
+                                </span>
+                                <span class="breadcrumbs__item">
                                     Cart
-                                </a>`;
+                                </span>`;
     breadcrumbsFragment.append(navBreadcrumbs);
     element.append(breadcrumbsFragment);
 }

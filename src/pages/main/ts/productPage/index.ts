@@ -4,11 +4,9 @@ import { deleteQueryProductParam } from '../setQueryParams';
 import { renderMainPage } from '../main';
 
 function productPage() {
-    const cardsWrapper = document.querySelector('.cards-block') as HTMLElement;
-    //const breadcrumbsHome = document.querySelector('.breadcrumbs__home');
-    const productPage = document.querySelector('.product-page');
+    const allWrapper = document.querySelector('.all-wrapper');
     const currUrl = new URL(window.location.href);
-    productPage?.addEventListener('click', (event: Event) => {
+    allWrapper?.addEventListener('click', (event: Event) => {
         const target = event.target as HTMLElement;
         console.log('target', target);
         if (target.closest('.card') && !target.classList.contains('add-cart')) {
@@ -16,6 +14,9 @@ function productPage() {
             currUrl.searchParams.set('product', productId);
             window.history.pushState({}, '', currUrl);
             renderProductPage();
+        }
+        if (target.closest('.breadcrumbs__home')) {
+            showMainPage();
         }
     });
     window.addEventListener('popstate', () => {
@@ -27,7 +28,6 @@ function productPage() {
     if (searchParams.get('product')) {
         renderProductPage();
     }
-    //breadcrumbsHome?.addEventListener('click', showMainPage);
 }
 
 function showMainPage() {
