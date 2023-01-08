@@ -18,6 +18,9 @@ function productPage() {
         if (target.closest('.breadcrumbs__home')) {
             showMainPage();
         }
+        if (target.className === 'shop-name' && document.querySelector('.breadcrumbs')) {
+            showMainPage();
+        }
     });
     window.addEventListener('popstate', () => {
         if (!searchParams.get('product') && !searchParams.get('page')) {
