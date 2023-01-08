@@ -26,12 +26,4 @@ function productPage() {
     }
 }
 
-// function showMainPage() {
-//     const breadcrumbsHome = document.querySelector('.breadcrumbs__home');
-//     breadcrumbsHome?.removeEventListener('click', showMainPage);
-//     const main = <HTMLElement>document.querySelector('.main');
-//     main.remove();
-//     deleteQueryProductParam();
-//     renderMainPage();
-// }
 export default productPage;
