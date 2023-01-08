@@ -1,6 +1,7 @@
 .main.cart-block {
   display: block;
   max-width: 1200px;
+  min-height: calc(100vh - 128px);
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -29,6 +30,7 @@
     font-size: 18px;
     transition: background 200ms;
     margin-top: 15px;
+    color: #fff;
 
     &:hover {
       background: #3BD356;

@@ -5,6 +5,7 @@ import emptyCartIcon from '../../../../assets/img/card_cart_icon_empty.svg';
 import { getCartFromLocalStorage, getTotalCartSum } from '../getLocalStorageParams';
 import { setCartDataToLocalStorage } from '../setLocalStorageParams';
 import { displayHeaderCartAmount } from '../addToCart';
+import redirectToMain from '../redirectToMain';
 
 function renderProductPage() {
     const url = new URL(window.location.href);
@@ -12,20 +13,21 @@ function renderProductPage() {
     const productId = searchParams.get('product') || '';
     const productsList = data.products;
     const currProduct = productsList.filter(({ id }) => id == +productId);
-    const {
-        id,
-        title,
-        description,
-        price,
-        discountPercentage,
-        rating,
-        brand,
-        category,
-        thumbnail,
-        images,
-        stock,
-    } = currProduct[0];
-    const innerHtml = `
+    if (currProduct.length != 0) {
+        const {
+            id,
+            title,
+            description,
+            price,
+            discountPercentage,
+            rating,
+            brand,
+            category,
+            thumbnail,
+            images,
+            stock,
+        } = currProduct[0];
+        const innerHtml = `
       <main class="main product-page">
 
       <nav class="breadcrumbs">
@@ -154,13 +156,16 @@ function renderProductPage() {
       </div>
     </main>
     `;
-    const main = document.querySelector('.main') as HTMLElement;
-    main.insertAdjacentHTML('afterend', innerHtml);
-    main.remove();
-    imgSwitcher();
-    handleModal();
-    addToCartButton();
-    setQuantityOfProductToBtn();
+        const main = document.querySelector('.main') as HTMLElement;
+        main.insertAdjacentHTML('afterend', innerHtml);
+        main.remove();
+        imgSwitcher();
+        handleModal();
+        addToCartButton();
+        setQuantityOfProductToBtn();
+
+        redirectToMain('.breadcrumbs__home');
+    }
 }
 
 function imgSwitcher() {

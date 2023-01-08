@@ -7,10 +7,16 @@ header {
     align-items: center;
     
     & .shop-name {
+        cursor: pointer;
         font-size: 1.5rem;
         font-weight: bold;
         justify-self: center;
         margin-left: 5px;
+        transition: all 0.2s;
+
+        &:hover {
+            text-shadow: #8d8d8d 1px 0 10px;
+        }
     }
 
     & .search-form {
@@ -68,6 +74,7 @@ header {
 
     }
     & .cart {
+        cursor: pointer;
         position: relative;
         justify-self: center;
         text-align: center;

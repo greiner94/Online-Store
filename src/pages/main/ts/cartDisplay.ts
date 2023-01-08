@@ -12,6 +12,7 @@ import {
 import { setQueryParams } from './setQueryParams';
 import promocode from './promocode';
 import modal from './modal';
+import redirectToMain from './redirectToMain';
 
 export function listenHeaderCart(): void {
     const headerCartElement = document.querySelector('.cart');
@@ -154,6 +155,7 @@ export function showEmptyCart(): void {
     const quantityBlock = document.querySelector('.quantity');
     quantityBlock?.classList.add('none');
     listenEmptyCart();
+    redirectToMain('.home-btn');
 }
 
 function showCartListCode(): void {

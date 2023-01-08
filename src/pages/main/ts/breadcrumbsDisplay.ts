@@ -1,3 +1,4 @@
+import redirectToMain from './redirectToMain';
 import '../style/cart.scss';
 
 export function displayBreadcrumbs(): void {
@@ -34,4 +35,6 @@ export function displayBreadcrumbsCart(): void {
                                 </a>`;
     breadcrumbsFragment.append(navBreadcrumbs);
     main.append(breadcrumbsFragment);
+
+    redirectToMain('.breadcrumbs__home');
 }

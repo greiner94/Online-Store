@@ -14,7 +14,7 @@ function productPage() {
         }
     });
     window.addEventListener('popstate', () => {
-        if (!searchParams.get('product')) {
+        if (!searchParams.get('product') && !searchParams.get('page')) {
             renderProductPage();
         }
     });
