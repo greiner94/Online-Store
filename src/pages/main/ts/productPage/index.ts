@@ -7,7 +7,7 @@ function productPage() {
     cardsWrapper.addEventListener('click', (event: Event) => {
         const target = event.target as HTMLElement;
         if (target.closest('.card') && !target.classList.contains('add-cart')) {
-            const productId = target.closest('.card')?.querySelector('.add-cart')?.getAttribute('data-id') || '0';git
+            const productId = target.closest('.card')?.querySelector('.add-cart')?.getAttribute('data-id') || '0';
             currUrl.searchParams.set('product', productId);
             window.history.pushState({}, '', currUrl);
             renderProductPage();
