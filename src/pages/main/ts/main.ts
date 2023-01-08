@@ -2,7 +2,7 @@ import '../style/style.scss';
 import renderProuductsCards from './renderProuductsCards';
 import data from '../../../assets/products.json';
 import { queryReset, querySave } from './queryResetSave';
-import { windowOnload } from './windowOnload';
+import { changePageWithQueryParams } from './windowOnload';
 import categoryFilter from './categoryFilter';
 import brandFilter from './brandFilter';
 import priceFilter from './priceFilter';
@@ -24,7 +24,7 @@ export function renderMainPage() {
     renderProuductsCards(productsList);
     queryReset();
     querySave();
-    windowOnload();
+    changePageWithQueryParams();
     sorting();
     search();
     indicationSelectedProducts();

@@ -16,7 +16,7 @@ export function windowOnload(): void {
     });
 }
 
-function changePageWithQueryParams(): void {
+export function changePageWithQueryParams(): void {
     const localProp = 'query';
     const queryParams = JSON.parse(<string>localStorage.getItem(localProp));
     for (const key in queryParams) {

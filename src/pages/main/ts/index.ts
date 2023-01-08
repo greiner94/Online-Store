@@ -24,7 +24,7 @@ headerImplement();
 // renderProuductsCards(productsList);
 // queryReset();
 // querySave();
-// windowOnload();
+windowOnload();
 // categoryFilter();
 // brandFilter();
 //priceFilter();
