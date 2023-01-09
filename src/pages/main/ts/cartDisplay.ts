@@ -22,19 +22,17 @@ export function listenHeaderCart(): void {
 }
 
 function displayCart() {
-    const headerCartIcon = document.querySelector('.cart');
-    const main = <HTMLElement>document.querySelector('.main');
-    headerCartIcon?.removeEventListener('click', displayCart);
     const cartLocalStorage: CartData[] = getCartFromLocalStorage();
+    const main = <HTMLElement>document.querySelector('.main');
     const cartFragment = <DocumentFragment>document.createDocumentFragment();
     const newMain = <HTMLElement>document.createElement('main');
-    newMain.className = 'main cart-block';
-    displayBreadcrumbsCart(newMain);
     const cartHead = document.createElement('div');
-    cartHead.classList.add('products__head');
-    showCartHead(cartHead);
     const wrapper = <HTMLElement>document.createElement('div');
-    wrapper.classList.add('product-cart__wrapper');
+    newMain.className = 'main cart-block';
+    cartHead.className = 'products__head';
+    wrapper.className = 'product-cart__wrapper';
+    displayBreadcrumbsCart(newMain);
+    showCartHead(cartHead);
     cartFragment.append(cartHead, wrapper);
     if (cartLocalStorage.length === 0) {
         main.after(newMain);
@@ -59,6 +57,8 @@ function displayCart() {
     modal();
     redirectToMain('.breadcrumbs__home');
     redirectToMain('.home-btn');
+    const headerCartIcon = document.querySelector('.cart');
+    headerCartIcon?.removeEventListener('click', displayCart);
 }
 function displayBreadcrumbsCart(element: HTMLElement): void {
     const breadcrumbsFragment: DocumentFragment = document.createDocumentFragment();
@@ -151,8 +151,11 @@ export function showEmptyCart(): void {
 
 function showCartListCode(): void {
     updatePageValue();
+    console.log('rendering product cart list');
     const cartLocalStorage: CartData[] = getCartFromLocalStorage();
+    console.log('cartLocalStorage', cartLocalStorage);
     const productsCartList = <HTMLElement>document.querySelector('.products__list');
+    console.log('cartLocalStorage', cartLocalStorage);
     productsCartList.innerHTML = '';
     const { countPages, amountProductsOnPage, page } = getPagesParamFromLocalStorage();
 
@@ -166,6 +169,10 @@ function showCartListCode(): void {
     }
     start = amountProductsOnPage * currentPage - amountProductsOnPage;
     finish = amountProductsOnPage * currentPage;
+    console.log('start', start);
+    console.log('finish', finish);
+    console.log('amountProductsOnPage', amountProductsOnPage);
+    console.log('currentPage', currentPage);
     let productCartElInner = '';
     for (let i = start; i < finish && i < cartLocalStorage.length; i++) {
         const { id, amount } = cartLocalStorage[i];
@@ -250,6 +257,7 @@ function showCartListCode(): void {
                             </div>`;
     }
     productsCartList.innerHTML = productCartElInner;
+    console.log('productCartElInner', productCartElInner);
 }
 
 function listenCartBlock(): void {
@@ -382,10 +390,10 @@ function isInputValidate(value: number, comparedNumber: number): boolean {
     return value > 0 && value <= comparedNumber;
 }
 function getPagesParamFromLocalStorage(): PageParams {
-    const amountProductsOnPage = getSingleParamFromLocalStorage('cart-page');
     const page = getSingleParamFromLocalStorage('page-number');
     const cartData: CartData[] = getCartFromLocalStorage();
     const amountProductsInCart: number = cartData.length;
+    const amountProductsOnPage = getSingleParamFromLocalStorage('cart-page') || amountProductsInCart;
     const countPages: number = Math.ceil(amountProductsInCart / amountProductsOnPage);
     return {
         countPages: countPages,
