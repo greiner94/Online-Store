@@ -1,4 +1,4 @@
-import { renderMainPage } from './main';
+import { mainPage } from '.';
 
 function redirectToMain(selector: string) {
     document.querySelector(selector)?.addEventListener('click', async (e) => {
@@ -9,7 +9,7 @@ function redirectToMain(selector: string) {
         window.history.pushState({}, '', url);
         const productPageElem = document.querySelector('.main') as HTMLElement;
         productPageElem.remove();
-        renderMainPage();
+        mainPage();
     });
 }
 
