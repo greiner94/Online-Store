@@ -52,5 +52,6 @@ export function mainPage() {
     listenSwitchingMode();
     listenHeaderCart();
     productPage();
+    window.scrollTo(0, 0);
 }
 mainPage();
