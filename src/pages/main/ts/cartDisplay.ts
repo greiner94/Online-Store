@@ -1,4 +1,7 @@
 import '../style/cart.scss';
+import homeIcon from '../../../assets/img/home_icon.svg';
+import minusIcon from '../../../assets/img/minus.svg';
+import plusIcon from '../../../assets/img/plus.svg';
 import { getSingleParamFromLocalStorage, getCartFromLocalStorage, getTotalCartSum } from './getLocalStorageParams';
 import data from '../../../assets/products.json';
 import { CartData, PageParams } from './type';
@@ -62,7 +65,7 @@ function displayBreadcrumbsCart(element: HTMLElement): void {
     const navBreadcrumbs: HTMLElement = document.createElement('nav');
     navBreadcrumbs.classList.add('breadcrumbs');
     navBreadcrumbs.innerHTML = ` <span class="breadcrumbs__home">
-                                    <img src="../../../assets/home_icon.svg" alt="home icon">
+                                    <img src="${homeIcon}" alt="home icon">
                                 </span>
                                 <span class="breadcrumbs__item">
                                     Cart
@@ -94,11 +97,9 @@ function showCartHead(element: HTMLElement): void {
                             </div>
                             <div class="pages__controls">
                                 <div class="pages__arrow navigate" data-left>
-                                   <!-- <img src="../../assets/large-arrow.svg" alt="navigate arrow" class="navigate" > -->
                                 </div>
                                 <input type="number" class="products__input pages__input" value="${page}" controls="false">
                                 <div class="pages__arrow  navigate" data-right>
-                                   <!-- <img src="../../assets/large-arrow.svg" alt="navigate arrow" class="navigate" data-right> -->
                                 </div>
                             </div>
                             <div class="all-pages">
@@ -241,9 +242,9 @@ function showCartListCode(): void {
                                         ${price * amount}
                                     </div>
                                     <div class="product__amount-toggler"  data-id="${id}" >
-                                        <img src="../assets/minus.svg" alt="minus" class="product__plus" data-minus>
+                                        <img src="${minusIcon}" alt="minus" class="product__plus" data-minus>
                                         <input type="number" class="products__input product__input" value="${amount}">
-                                        <img src="../assets/plus.svg" alt="plus" class="product__plus" data-plus>
+                                        <img src="${plusIcon}" alt="plus" class="product__plus" data-plus>
                                     </div>
                                 </div>                                
                             </div>`;
