@@ -30,8 +30,6 @@ export function changePageWithQueryParams(): void {
 }
 
 function changePageWithOtherParams(): void {
-    // const localPropCartAllAmount = 'all-amount';
-    //const allAmount = Number(<string>localStorage.getItem(localPropCartAllAmount));
     const headerTotalSum = <HTMLElement>document.querySelector('.cart-total__sum');
     const localProp = 'cart';
     const cartData: CartData[] = JSON.parse(localStorage.getItem(localProp) || '[]');

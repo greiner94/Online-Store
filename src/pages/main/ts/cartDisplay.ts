@@ -151,11 +151,8 @@ export function showEmptyCart(): void {
 
 function showCartListCode(): void {
     updatePageValue();
-    console.log('rendering product cart list');
     const cartLocalStorage: CartData[] = getCartFromLocalStorage();
-    console.log('cartLocalStorage', cartLocalStorage);
     const productsCartList = <HTMLElement>document.querySelector('.products__list');
-    console.log('cartLocalStorage', cartLocalStorage);
     productsCartList.innerHTML = '';
     const { countPages, amountProductsOnPage, page } = getPagesParamFromLocalStorage();
 
@@ -169,10 +166,6 @@ function showCartListCode(): void {
     }
     start = amountProductsOnPage * currentPage - amountProductsOnPage;
     finish = amountProductsOnPage * currentPage;
-    console.log('start', start);
-    console.log('finish', finish);
-    console.log('amountProductsOnPage', amountProductsOnPage);
-    console.log('currentPage', currentPage);
     let productCartElInner = '';
     for (let i = start; i < finish && i < cartLocalStorage.length; i++) {
         const { id, amount } = cartLocalStorage[i];
@@ -257,7 +250,6 @@ function showCartListCode(): void {
                             </div>`;
     }
     productsCartList.innerHTML = productCartElInner;
-    console.log('productCartElInner', productCartElInner);
 }
 
 function listenCartBlock(): void {
