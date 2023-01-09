@@ -1,0 +1,209 @@
+.none {
+    display: none;
+}
+.modal-wrap {
+    .blackout {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, .8) fixed;
+        z-index: 2;
+    }
+    .modal {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        position: absolute;
+        top: 10%; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        z-index: 3;
+        background: #ffffff;
+        padding: 30px 10%;
+        text-align: center;
+        color: #181818;
+        font-size: 1rem;
+        width: 54vw;
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 25px;
+        }
+        input {
+            width: 100%;
+            height: 4.5vw;
+            border: 1px solid #A6A5A5;
+            border-radius: 5px;
+            padding: 0 25px;
+
+            &::-webkit-outer-spin-button { 
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            &::-webkit-inner-spin-button {
+                @extend ::-webkit-outer-spin-button;
+            }
+            &::placeholder{
+                color: #616060;
+    
+            }
+        }
+
+        
+        h3 {
+            font-size: 1.25rem;
+            color: #181818;
+            margin-top: 30px 0 15px;
+        }
+        .credit-card-wrap {
+            border: 1px solid #A6A5A5;
+            border-radius: 5px;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            input {
+                padding: 0 10px;
+            }
+
+            .card-image {
+                position: absolute;
+                right: 21px;
+                top: 38px;
+            }
+
+            #card-number {
+                width: 99%;
+                height: 4vw;
+            }
+
+            .valid-line {
+                margin-top: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            #valid {
+                width: 105px;
+                height: 40px;
+            } 
+
+            #cvv {
+                @extend #valid;
+                
+            }
+        }
+        &__submit {
+            background: #25a53c;
+            height: 57px;
+            color: #ffffff;
+            font-size: 1.25rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+            &:hover {
+                background: #2fb748; 
+            }
+        }
+        
+        .form-error {
+            color: #e43a3a;
+        }
+        &_success {
+            font-size: 32px;
+            color: #25a53c;
+            border-radius: 5px;
+        }
+    }
+    input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px white inset !important;
+      } 
+}
+@media screen and (max-width: 800px) {
+    .modal-wrap {
+        
+        .modal {
+            top: 0; 
+            padding: 5%;
+            width: 60vw;
+            
+           
+
+            h2 {
+                margin-bottom: 2%;
+            }
+            input {
+                height: 6vw;
+            }
+            .credit-card-wrap {
+                #card-number {
+                    height: 6vw; 
+                }
+            }
+        }
+    }
+}
+@media screen and (max-width: 700px) {
+    .modal-wrap {
+        
+        .modal {
+           
+            width: 70vw;
+            
+                      
+        }
+    }
+}
+@media screen and (max-width: 600px) {
+    .modal-wrap {
+        
+        .modal {
+           
+            width: 80vw;
+            input {
+                height: 8vw;
+            }
+            .credit-card-wrap {
+                #card-number {
+                    height: 8vw; 
+                }
+            }        
+        }
+    }
+}
+@media screen and (max-width: 500px) {
+    .modal-wrap {
+        
+        .modal {
+           
+            width: 90vw;
+            input {
+                height: 10vw;
+            }
+            .credit-card-wrap {
+                #card-number {
+                    height:10vw; 
+                }
+            }          
+        }
+    }
+}
+@media screen and (min-width: 1440px) {
+    .modal-wrap {
+        
+        .modal {
+            padding: 30px 30px;
+            width: 600px;
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%);
+            input {
+                height: 50px;
+            }
+            .credit-card-wrap {
+                #card-number {
+                    height:40px; 
+                }
+            }          
+        }
+    }
+}
