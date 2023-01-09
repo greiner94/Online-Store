@@ -1,7 +1,5 @@
 import renderProductPage from './renderProductPage';
 import '../../style/product.scss';
-// import { deleteQueryProductParam } from '../setQueryParams';
-// import { renderMainPage } from '../main';
 
 function productPage() {
     const cardsWrapper = document.querySelector('.cards-block') as HTMLElement;
@@ -13,6 +11,7 @@ function productPage() {
             currUrl.searchParams.set('product', productId);
             window.history.pushState({}, '', currUrl);
             renderProductPage();
+            window.scrollTo(0, 0);
         }
     });
     window.addEventListener('popstate', () => {

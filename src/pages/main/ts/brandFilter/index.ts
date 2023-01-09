@@ -26,11 +26,6 @@ function brandFilter() {
             checkedBrandSwitcher();
             filterController();
         });
-        //const resetBtn = document.querySelector('.reset-filters') as HTMLElement;
-        // resetBtn.addEventListener('click', () => {
-        //     filterController();
-        //     checkedBrandSwitcher();
-        // });
     }
 }
 

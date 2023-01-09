@@ -27,11 +27,6 @@ function categoryFilter() {
             checkedCategorySwitcher();
             filterController();
         });
-        // const resetBtn = document.querySelector('.reset-filters') as HTMLElement;
-        // resetBtn.addEventListener('click', () => {
-        //     filterController();
-        //     checkedCategorySwitcher();
-        // });
     }
 }
 
