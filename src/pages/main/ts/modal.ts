@@ -1,9 +1,13 @@
 import visa from '../../../assets/img/card-visa.png';
 import masterCard from '../../../assets/img/card-mastercard.png';
 import express from '../../../assets/img/card-american-express.png';
+import { mainPage } from '.';
+import { getTotalCartSum } from './getLocalStorageParams';
+import { displayHeaderCartAmount } from './addToCart';
 
 export function modal() {
     renderModalPage();
+    window.scrollTo(0, 0);
     if (document.querySelector('.summary__btn')) {
         const openModalBtn = document.querySelector('.summary__btn');
         const modalWrap = document.querySelector('.modal-wrap');
@@ -15,6 +19,7 @@ export function modal() {
 
         openModalBtn?.addEventListener('click', () => {
             modalWrap?.classList.remove('none');
+            window.scrollTo(0, 0);
         });
 
         const form = document.querySelector('.modal') as HTMLFormElement;
@@ -42,46 +47,79 @@ export function formValidation(event: SubmitEvent) {
 
     if (!document.querySelector('.form-error')) {
         showSuccessOrder();
+        window.scrollTo(0, 0);
     }
 }
 function nameValidate() {
+    const id = 'person-name';
     const nameInput = document.querySelector('#person-name') as HTMLInputElement;
+    nameInput.addEventListener('change', () => {
+        nameValidate();
+    });
     const inputValue = nameInput.value;
     if (inputValue.includes(' ')) {
         const [name, surname] = inputValue.split(' ');
         if (name.length > 2 && surname.length > 2) {
+            removeError(id);
             return;
         }
+    } else if (!checkError(id)) {
+        showError(nameInput, id);
     }
-    showError(nameInput);
 }
 function phoneValidate() {
+    const id = 'person-number';
     const phoneInput = document.querySelector('#person-number') as HTMLInputElement;
     const phoneValue = phoneInput.value;
-
+    phoneInput.addEventListener('change', phoneValidate);
     if (phoneValue.length < 10) {
-        showError(phoneInput);
+        if (!checkError(id)) {
+            const errorMessage = 'Your phone number more than 10 number';
+            showError(phoneInput, id, 'beforebegin', errorMessage);
+        }
+    } else {
+        removeError(id);
     }
 }
 function deliveryValidate() {
-    const deliveryInput = document.querySelector('#delivery-address') as HTMLInputElement;
+    const id = 'delivery-address';
+    const deliveryInput = document.querySelector(`#${id}`) as HTMLInputElement;
+    deliveryInput.addEventListener('change', deliveryValidate);
     const deliveryValue = deliveryInput.value;
     const deliveryArr = deliveryValue.split(' ');
     if (deliveryArr.length < 3 || deliveryArr.some((word) => word.length < 5)) {
-        showError(deliveryInput);
+        if (!checkError(id)) {
+            const errorMessage = 'Example: 12-25 st.King Cambridge CB11AH England';
+            showError(deliveryInput, id, 'beforebegin', errorMessage);
+        }
+    } else {
+        removeError(id);
     }
 }
-function emailValidate() {
-    const emailInput = document.querySelector('#email') as HTMLInputElement;
+function emailValidate(): void {
+    const id = 'email';
+    const emailInput = document.querySelector(`#${id}`) as HTMLInputElement;
+    emailInput.addEventListener('change', emailValidate);
     const emailValue = emailInput.value;
     if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(emailValue)) {
-        showError(emailInput);
+        if (!checkError(id)) {
+            showError(emailInput, id);
+        }
+    } else {
+        removeError(id);
     }
 }
-function cardValidate() {
-    const cardInput = document.querySelector('#card-number') as HTMLInputElement;
+function cardValidate(): void {
+    const id = 'card-number';
+    const cardInput = document.querySelector(`#${id}`) as HTMLInputElement;
+    cardInput.addEventListener('change', cardValidate);
     if (cardInput.value.length != 19) {
-        showError(cardInput);
+        if (!checkError(id)) {
+            const errorMessage = 'Enter 18 number';
+            showError(cardInput, id, 'beforebegin', errorMessage);
+        }
+    } else {
+        removeError(id);
     }
 }
 function cardFormEditor() {
@@ -168,9 +206,16 @@ function validFormEditor() {
 }
 
 function validValidate() {
-    const validInput = document.querySelector('#valid') as HTMLInputElement;
+    const id = 'valid';
+    const validInput = document.querySelector(`#${id}`) as HTMLInputElement;
+    validInput.addEventListener('change', validValidate);
     if (+validInput.value.split('/')[0] > 12 || validInput.value.length != 5) {
-        showError(validInput, 'afterend');
+        if (!checkError(id)) {
+            const errorMessage = 'mm/yy';
+            showError(validInput, id, 'afterend', errorMessage);
+        }
+    } else {
+        removeError(id);
     }
 }
 
@@ -189,37 +234,73 @@ function cvvFormEditor() {
 }
 
 function cvvValidate() {
-    const validInput = document.querySelector('#cvv') as HTMLInputElement;
+    const id = 'cvv';
+    const validInput = document.querySelector(`#${id}`) as HTMLInputElement;
+    validInput.addEventListener('change', cvvValidate);
     if (validInput.value.length != 3) {
-        showError(validInput, 'afterend');
+        if (!checkError(id)) {
+            const errorMessage = '000';
+            showError(validInput, id, 'afterend', errorMessage);
+        }
+    } else {
+        removeError(id);
     }
 }
+function checkError(inputId: string): boolean {
+    const errors: NodeListOf<HTMLElement> = document.querySelectorAll('.form-error');
+    const currentError = Array.from(errors).find((el) => el.dataset.id === inputId);
+    return typeof currentError !== 'undefined';
+}
 
-function showError(elem: HTMLElement, position: InsertPosition = 'beforebegin') {
-    const innerHtml = '<div class="form-error"> Field is not valid </div>';
-    elem.insertAdjacentHTML(position, innerHtml);
+function showError(elem: HTMLElement, elemId: string, position: InsertPosition = 'beforebegin', errorMessage = '') {
+    errorMessage = errorMessage ? errorMessage : 'Field is not valid';
+    errorMessage = `<div class="form-error" data-id="${elemId}">${errorMessage}</div>`;
+    elem.insertAdjacentHTML(position, errorMessage);
+    elem.style.background = 'transparent';
+    elem.style.border = '1px solid red';
+}
+function removeError(inputId: string): void {
+    const errorEl: NodeListOf<HTMLElement> = document.querySelectorAll('.form-error');
+    const currentError = Array.from(errorEl).find((el) => {
+        return el.dataset.id === inputId;
+    });
+    currentError?.remove();
+    correctField(inputId);
+}
+function correctField(inputId: string) {
+    const currentInput = <HTMLInputElement>document.querySelector(`#${inputId}`);
+    currentInput.style.border = '1px solid #25a53c';
 }
 
 function showSuccessOrder() {
     const modal = document.querySelector('.modal') as HTMLElement;
     const successMessage = document.createElement('form');
     successMessage.classList.add('modal', 'modal_success');
-    successMessage.textContent = 'Thank you for youre order!';
+    successMessage.textContent = 'Thank you for your order!';
     modal.parentElement?.appendChild(successMessage);
     modal.style.display = 'none';
-
     setTimeout(() => {
-        document.querySelector('.modal_success')?.remove();
-        modal.style.display = 'flex';
-        const modalWrap = document.querySelector('.modal-wrap') as HTMLElement;
-        modalWrap.classList.add('none');
         localStorage.setItem('cart', '[]');
         localStorage.setItem('promo', '[]');
         localStorage.setItem('all-amount', '0');
-        window.location.replace('./');
-    }, 3000);
+        modal.style.display = 'flex';
+        const modalWrap = document.querySelector('.modal-wrap') as HTMLElement;
+        modalWrap.remove();
+        redirectToMain();
+    }, 1500);
 }
-
+function redirectToMain() {
+    const url = new URL(window.location.href);
+    const searchParams = <URLSearchParams>url.searchParams;
+    searchParams.delete('product');
+    window.history.pushState({}, '', url);
+    const headerTotalSum = <HTMLElement>document.querySelector('.cart-total__sum');
+    headerTotalSum.textContent = getTotalCartSum().toString();
+    displayHeaderCartAmount(0);
+    const productPageElem = document.querySelector('.main') as HTMLElement;
+    productPageElem.remove();
+    mainPage();
+}
 function renderModalPage() {
     const modal = document.createElement('div');
     modal.classList.add('modal-wrap', 'none');
@@ -227,7 +308,7 @@ function renderModalPage() {
     <div class="blackout"></div>
     <form class="modal">
       <h2>Personal details</h2>
-      <input type="text" name="first-name" id="person-name" placeholder="Name">
+      <input type="text" name="first-name" id="person-name" placeholder="Surname Name">
       <input type="tel" name="phone-number" id="person-number" placeholder="Phone number">
       <input type="text" name="delivery-address" id="delivery-address" placeholder="Delivery address">
       <input type="text" name="email" id="email" placeholder="E-mail">
