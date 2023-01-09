@@ -20,7 +20,6 @@ export function changePageWithQueryParams(): void {
     const localProp = 'query';
     const queryParams = JSON.parse(<string>localStorage.getItem(localProp));
     for (const key in queryParams) {
-        // Add parameter to this place: if (key === 'brand') than call your function
         if (key === 'mode') {
             const value = <string>queryParams[key];
             switchMode<string>(value);
