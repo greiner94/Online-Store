@@ -1,4 +1,7 @@
 import '../style/cart.scss';
+import homeIcon from '../../../assets/img/home_icon.svg';
+import minusIcon from '../../../assets/img/minus.svg';
+import plusIcon from '../../../assets/img/plus.svg';
 import { getSingleParamFromLocalStorage, getCartFromLocalStorage, getTotalCartSum } from './getLocalStorageParams';
 import data from '../../../assets/products.json';
 import { CartData, PageParams } from './type';
@@ -19,19 +22,17 @@ export function listenHeaderCart(): void {
 }
 
 function displayCart() {
-    const headerCartIcon = document.querySelector('.cart');
-    const main = <HTMLElement>document.querySelector('.main');
-    headerCartIcon?.removeEventListener('click', displayCart);
     const cartLocalStorage: CartData[] = getCartFromLocalStorage();
+    const main = <HTMLElement>document.querySelector('.main');
     const cartFragment = <DocumentFragment>document.createDocumentFragment();
     const newMain = <HTMLElement>document.createElement('main');
-    newMain.className = 'main cart-block';
-    displayBreadcrumbsCart(newMain);
     const cartHead = document.createElement('div');
-    cartHead.classList.add('products__head');
-    showCartHead(cartHead);
     const wrapper = <HTMLElement>document.createElement('div');
-    wrapper.classList.add('product-cart__wrapper');
+    newMain.className = 'main cart-block';
+    cartHead.className = 'products__head';
+    wrapper.className = 'product-cart__wrapper';
+    displayBreadcrumbsCart(newMain);
+    showCartHead(cartHead);
     cartFragment.append(cartHead, wrapper);
     if (cartLocalStorage.length === 0) {
         main.after(newMain);
@@ -56,13 +57,15 @@ function displayCart() {
     modal();
     redirectToMain('.breadcrumbs__home');
     redirectToMain('.home-btn');
+    const headerCartIcon = document.querySelector('.cart');
+    headerCartIcon?.removeEventListener('click', displayCart);
 }
 function displayBreadcrumbsCart(element: HTMLElement): void {
     const breadcrumbsFragment: DocumentFragment = document.createDocumentFragment();
     const navBreadcrumbs: HTMLElement = document.createElement('nav');
     navBreadcrumbs.classList.add('breadcrumbs');
     navBreadcrumbs.innerHTML = ` <span class="breadcrumbs__home">
-                                    <img src="../../../assets/home_icon.svg" alt="home icon">
+                                    <img src="${homeIcon}" alt="home icon">
                                 </span>
                                 <span class="breadcrumbs__item">
                                     Cart
@@ -94,11 +97,9 @@ function showCartHead(element: HTMLElement): void {
                             </div>
                             <div class="pages__controls">
                                 <div class="pages__arrow navigate" data-left>
-                                   <!-- <img src="../../assets/large-arrow.svg" alt="navigate arrow" class="navigate" > -->
                                 </div>
                                 <input type="number" class="products__input pages__input" value="${page}" controls="false">
                                 <div class="pages__arrow  navigate" data-right>
-                                   <!-- <img src="../../assets/large-arrow.svg" alt="navigate arrow" class="navigate" data-right> -->
                                 </div>
                             </div>
                             <div class="all-pages">
@@ -241,9 +242,9 @@ function showCartListCode(): void {
                                         ${price * amount}
                                     </div>
                                     <div class="product__amount-toggler"  data-id="${id}" >
-                                        <img src="../assets/minus.svg" alt="minus" class="product__plus" data-minus>
+                                        <img src="${minusIcon}" alt="minus" class="product__plus" data-minus>
                                         <input type="number" class="products__input product__input" value="${amount}">
-                                        <img src="../assets/plus.svg" alt="plus" class="product__plus" data-plus>
+                                        <img src="${plusIcon}" alt="plus" class="product__plus" data-plus>
                                     </div>
                                 </div>                                
                             </div>`;
@@ -381,10 +382,10 @@ function isInputValidate(value: number, comparedNumber: number): boolean {
     return value > 0 && value <= comparedNumber;
 }
 function getPagesParamFromLocalStorage(): PageParams {
-    const amountProductsOnPage = getSingleParamFromLocalStorage('cart-page');
     const page = getSingleParamFromLocalStorage('page-number');
     const cartData: CartData[] = getCartFromLocalStorage();
     const amountProductsInCart: number = cartData.length;
+    const amountProductsOnPage = getSingleParamFromLocalStorage('cart-page') || amountProductsInCart;
     const countPages: number = Math.ceil(amountProductsInCart / amountProductsOnPage);
     return {
         countPages: countPages,
